@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/20 15:49:58 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:20:30 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,31 +113,24 @@ void create_tokens(t_data *data)
             i++;
         fill_tokens(data, i, j, NONE);
     }
-    while(data->tokens != NULL)
-    {
-        printf("original token is --> |%s| \n", data->tokens->original_content);
-        printf("status is %d\n", data->tokens->quotes);
-        data->tokens = data->tokens->next;
-    }
 }
 
-void is_command(char *content, t_token *token)
+int is_command(char *content, t_token *token)
 {
     if(ft_strcmp("env", content) || ft_strcmp("cd", content) || ft_strcmp("pwd", content))
     {
         token->type = COMMAND;
-        //return(1);
+        return(1);
     }
     else if(ft_strcmp("export", content) || ft_strcmp("unset", content) || ft_strcmp("exit", content))
     {
         token->type = COMMAND;
-        //return(1);
+        return(1);
     }
-    //return(0);
+    return(0);
 }
-int is_env(char *content)
-{
-}
+
+
 void sorting(t_data *data)
 {
     int i;
@@ -145,17 +138,53 @@ void sorting(t_data *data)
     i = 0;
     while(data->tokens != NULL)
     {
-        if(is_command(data->tokens->original_content))
-            data->tokens = data->tokens->next;
+        if(is_command(data->tokens->original_content, data->tokens))
+        {
+            if(data->tokens->next)
+                data->tokens = data->tokens->next;
+            else
+                return;
+            printf("🔴\n");
+        }
         while(data->tokens && data->tokens->original_content[i])
         {
-            if(data->tokens->original_content[i] == '$' && i = 0)
-                token->type = ENV;
-            
+            if(data->tokens->original_content[i] == '$' && i == 0)
+            {
+                data->tokens->type = ENV;
+                break;
+            }
+            else if(data->tokens->original_content[i] == ' ')
+            {
+                data->tokens->type = SPACE;
+                break;
+            }
+            else if(data->tokens->original_content[i] == '<' || data->tokens->original_content[i] == '<')
+            {
+                data->tokens->type = REDIR;
+                break;
+            }
+            else if(data->tokens->original_content[i] == '|')
+            {
+                data->tokens->type = PIPE;
+                break;
+            }
+            i++;
         }
+        data->tokens = data->tokens->next;
     }
 }
 
+void print_datas(t_data *data)
+{
+    while(!data->tokens)
+    {
+        printf("original token is -->    |%s|\n", data->tokens->original_content);
+        printf("status is-->      %d\n", data->tokens->quotes);
+        printf("type is ------------>>     %d\n", data->tokens->type);
+        printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
+        data->tokens = data->tokens->next;
+    }
+}
 void start_shell(t_data *data)
 {
     while(1)
@@ -163,9 +192,10 @@ void start_shell(t_data *data)
         data->input = readline("Verishen: ");
         create_tokens(data);
         //free_data(data);
-        // if(!sorting(data))
-        //     exit(2);
-        // checking(data);
+        sorting(data);
+        print_datas(data);
+            //exit(2);
+        //checking(data);
         //system("leaks minishell");
     }
 }
