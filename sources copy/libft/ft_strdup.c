@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:29:41 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/19 19:47:03 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:56:45 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char    *ft_strndup(const char *s1, int n, int m)
     int        i;
     int        j;
 
+    if (m >= n)
+        return (0);
     str = (char *)malloc((n - m + 1) * sizeof(char));
     if (str == NULL)
         return (0);

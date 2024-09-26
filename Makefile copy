@@ -14,7 +14,11 @@ HELPERS =	ft_arrdup.c \
 			free_array.c \
 			initialization.c
 
-TOKENIZATION =	tokenization.c
+TOKENIZATION =	tokenization.c \
+				tokenization_utils.c \
+				libft_functions.c\
+				tokens_quotes_type.c \
+				tokens_insertion.c
 
 LIBFT = ft_lstadd_back.c \
 		ft_lstnew.c \

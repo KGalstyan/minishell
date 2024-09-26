@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/17 20:04:08 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:56:02 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@
 typedef struct s_data
 {
     char **env;
+    int i;
+    int j;
+    int quotes_flag;
     t_token *tokens;
+    t_token *current;
     char *input;
 }               t_data;
 
@@ -34,9 +38,18 @@ typedef struct s_data
 #include "helpers.h"
 
 
-
 void start_shell(t_data *data);
-// void	ft_lstadd_back(t_token **lst, t_token *new);
-// t_token	*ft_lstnew(void *content);
+void error_exit(t_data *data);
+
+////tokenization//////
+
+int fill_tokens(t_data *data, int i, int j, int quotes);
+int check_pipe_red_env(t_data *data);
+int check_quotes(t_data *data);
+int check_space(t_data *data);
+void free_data(t_data *data);
+
+void allot_quotes_value(t_data *data);
+void tokens_insertion(t_data *data);
 
 #endif
