@@ -42,13 +42,19 @@ static void dollar_insertion(t_data *data)
 void single_string_insertion(t_data *data)
 {
     t_token *first;
+    t_token *last;
+
     data->current = data->tokens;
     while(data->current)
     {
-        first = data->current;
+        if(data->current->quotes == SINGLE)
+            first = data->current;
         while(data->current && data->current->quotes == SINGLE)
+        {
+            last = data->current
             data->current = data->current->next;
-        ft_lst_join();
+        }
+        connect_lst_in_one(&data->tokens, first, last);
         data->current = data->current->next;
     }
 }

@@ -1,5 +1,5 @@
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror #-lreadline #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -lreadline #-fsanitize=address
 CC = cc 
 SRCS =	main.c
 
@@ -18,7 +18,8 @@ TOKENIZATION =	tokenization.c \
 				tokenization_utils.c \
 				libft_functions.c\
 				tokens_quotes_type.c \
-				tokens_insertion.c
+				tokens_insertion.c \
+				list_function.c
 
 LIBFT = ft_lstadd_back.c \
 		ft_lstnew.c \

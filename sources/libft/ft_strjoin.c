@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_functions.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/26 21:00:08 by kgalstya         ###   ########.fr       */
+/*   Created: 2024/02/02 17:29:41 by vkostand          #+#    #+#             */
+/*   Updated: 2024/09/21 18:56:45 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void ft_lst_delone(t_token **lst, t_token *that_one)
+char	*ft_strjoin(char *s1, char *s2)
 {
-    t_token *tmp;
-    t_token *prev;
+	int		i;
+	int		n;
+	char	*res;
 
-    prev = *lst;
-    tmp = that_one->next;
-    if (!del || !lst)
-		return ;
-    while(prev->next && (prev->next != that_one))
-        prev = prev->next;
-    prev->next = tmp;
-    free(that_one->original_content);
-    free(that_one);
+	if (!s2)
+		return (NULL);
+	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	n = 0;
+	while (s1[i] != '\0')
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	while (s2[n] != '\0')
+	{
+		res[i] = s2[n];
+		n++;
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

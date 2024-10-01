@@ -49,5 +49,8 @@ struct s_token
 t_token	*ft_lstnew(int quotes);
 int	ft_strcmp(const char *s1, const char *s2);
 void	ft_lstadd_back(t_token **lst, t_token *new);
+void ft_lst_delone(t_token **lst, t_token *that_one);
+void connect_lst_in_one(t_token **lst, t_token *first, t_token *last);
+
 
 #endif
