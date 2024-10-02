@@ -31,7 +31,7 @@ void ft_lst_delone(t_token **lst, t_token *that_one)
     free(that_one);
 }
 
-void connect_lst_in_one(t_token **lst, t_token *first, t_token *last)
+void connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type)
 {
   t_token *new;
   t_token *ptr;
@@ -60,6 +60,7 @@ void connect_lst_in_one(t_token **lst, t_token *first, t_token *last)
     ptr = ptr->next;
   }
   new->original_content = new_origcont;
+  new->type = type;
   new->next = tmp;
 }
 
