@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/26 19:56:02 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:47:42 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 
 void start_shell(t_data *data);
 void error_exit(t_data *data);
+void print_data(t_data *data);
 
 ////tokenization//////
 

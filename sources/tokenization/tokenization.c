@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/26 19:55:42 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:51:54 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void create_tokens(t_data *data)
     data->quotes_flag = NONE;
     while(data->input[data->i])
     {
+        data->quotes_flag = NONE;
         data->j = data->i;
         if(check_pipe_red_env(data))
             continue;
@@ -40,17 +41,18 @@ void create_tokens(t_data *data)
     }
 }
 
-void print_datas(t_data *data)
+void print_data(t_data *data)
 {
     t_token *pr_token = data->tokens;
     while(pr_token != NULL)
     {
-        printf("original token is -->    |%s|\n", pr_token->original_content);
-        printf("status is-->      %d\n\n", pr_token->quotes);
-        //printf("type is ------------>>     %d\n", pr_token->type);
-        printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
+        printf("token --> [%s]", pr_token->original_content);
+        printf(" (%d) -->", pr_token->quotes);
+        printf(" type(%d) -->\n", pr_token->type);
+        //printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
         pr_token = pr_token->next;
     }
+    printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
 }
 
 void error_exit(t_data *data)
@@ -65,6 +67,7 @@ void tokenization(t_data *data)
 {
     create_tokens(data);
     allot_quotes_value(data);
+    print_data(data);
     tokens_insertion(data);
 }
 void start_shell(t_data *data)
@@ -72,8 +75,10 @@ void start_shell(t_data *data)
     while(1)
     {
         data->input = readline("Verishen: ");
+        if (data->input)
+            add_history(data->input);
+        // print_data(data);
         tokenization(data);
-        print_datas(data);
         printf("✅ CORRECT INPUT\n");
         free_data(data);
         system("leaks minishell");
