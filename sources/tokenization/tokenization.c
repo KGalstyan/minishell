@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/08 19:51:54 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:22:57 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void print_data(t_data *data)
         printf("token --> [%s]", pr_token->original_content);
         printf(" (%d) -->", pr_token->quotes);
         printf(" type(%d) -->\n", pr_token->type);
-        //printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
         pr_token = pr_token->next;
     }
     printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");

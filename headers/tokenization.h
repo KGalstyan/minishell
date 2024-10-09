@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/07 22:21:31 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:17:54 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ struct s_token
 typedef struct s_div 
 {
     int i;
-    int j;
-    int type;
+    int quotes;
+    int start;
+    int type1;
+    int type2;
     
 }          t_div;
 

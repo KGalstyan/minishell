@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/08 20:59:10 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:45:10 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         free((*lst)->original_content);
         free(*lst);
         *lst = ptr;
-        return *lst;
+        return (NULL);
     }
     prev = NULL;
     ptr = *lst;
@@ -72,6 +72,7 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
     return *lst;
 }
 
+
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type)
 {
     t_token *new;
@@ -82,10 +83,10 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
     t_token *to_free;
 
     if (!first || !lst || !*lst || !last || first == last)
-      return (*lst);
+      return (NULL);
     new = malloc(sizeof(t_token));
     if (!new)
-        return *lst;
+        return (NULL);
     new->quotes = first->quotes;
     ptr = first;
     tmp = last->next;
@@ -137,73 +138,81 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
     }
     return new->next;
 }
-char *ft_strncat(char *str, int i, int j)
-{
-    int n;
-    int m;
-    char *new;
 
-    new = (char *)malloc(i - j + 1);
+
+static char *ft_strncat(const char *str, int start, int end)
+{
+    int length;
+    char *new_str;
+    int n;
+    
+    if (start > end || start < 0 || end < 0)
+        return NULL;
+    length = end - start + 1;
     n = 0;
-    m = 0;
-    while(str[n])
+    new_str = (char *)malloc(length + 1);
+    if (!new_str)
+        return NULL;
+    while(n < length)
     {
-        if(n >= j & n <= i)
-        {
-            new[m] = str[n];
-            m++;
-        }
+        new_str[n] = str[start + n];
         n++;
     }
-    new[i] = '\0'; 
-    return(new);
-} 
+    new_str[length] = '\0';
+    return new_str;
+}
 
-t_token *divide_lst(t_token **lst, t_token *selected, t_div *div) 
+static int check_new_list(t_token *new1, t_token *new2, t_token *selected, t_div *div)
 {
-    if (!lst || !*lst || !selected || !div)
-        return NULL;
-    t_token *new1 = malloc(sizeof(t_token));
-    t_token *new2 = malloc(sizeof(t_token));
-    if (!new1 || !new2)
+    if (!new1 || !new2) 
     {
         free(new1);
         free(new2);
-        return (*lst);
+        return (0);
     }
     new1->quotes = selected->quotes;
     new2->quotes = selected->quotes;
-    new1->original_content = ft_strdup("");
-    new2->original_content = ft_strdup("");
-    if (!new1->original_content || !new2->original_content) 
+    new1->type = div->type1;
+    new2->type = div->type2;
+    new1->original_content = ft_strncat(selected->original_content, div->start, div->i - 1);
+    new2->original_content = ft_strncat(selected->original_content,div->i, ft_strlen(selected->original_content));
+    if (!new1->original_content || !new2->original_content)
     {
         free(new1->original_content);
         free(new2->original_content);
         free(new1);
         free(new2);
-        return NULL;
+        return (0);
     }
-    t_token *ptr = *lst;
+    return(1);
+}
+
+t_token *divide_lst(t_token **lst, t_token *selected, t_div *div)
+{
+    t_token *ptr;
+    t_token *new1;
+    t_token *new2;
+    
+    if (!lst || !*lst || !selected)
+        return NULL;
+    new1 = malloc(sizeof(t_token));
+    new2 = malloc(sizeof(t_token));
+    if(!check_new_list(new1, new2, selected, div))
+        return(NULL);
+    ptr = *lst;
     if (ptr == selected)
         *lst = new1;
-    else 
-    {
+    else {
         while (ptr && ptr->next != selected)
             ptr = ptr->next;
-        printf("▶️ I %d\n", div->i);
-        printf("▶️ J %d\n", div->j);
-        new1->original_content = ft_strncat(ptr->original_content, div->i, div->j);
-        new2->original_content = ft_strncat(ptr->original_content,div->i, ft_strlen(ptr->original_content));
-        printf("🔵    %s\n", new1->original_content);
-        printf("🔵    %s\n", new2->original_content);
         if (ptr)
             ptr->next = new1;
     }
     new1->next = new2;
     new2->next = selected->next;
-    new2->type = div->type;
     free(selected->original_content);
     free(selected);
-    return (*lst);
+    return (new2->next);
 }
+
 
