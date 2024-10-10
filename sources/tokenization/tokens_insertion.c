@@ -28,24 +28,7 @@ int	ft_isalpha(int a)
 		return (1);
 }
 
-static int dollar_parsing_check(t_data *data, t_div *div)
-{
-    if(data->current->original_content[0] == '?' && div->i == 0)
-    {
-        printf("🔵there will be hold this exit status\n");
-        div->start++;
-        div->i++;
-        return(0);
-    }
-    else if(!ft_isalpha(data->current->original_content[div->i]) && !ft_isdigit(data->current->original_content[div->i]) && data->current->original_content[div->i] != '_')
-    {
-        div->type1 = ENV;
-        div->type2 = WORD;
-        data->current = divide_lst(&data->tokens, data->current, div);
-        return (1);
-    }
-    return(0);
-}
+// printf("🔵there will be hold this exit status\n");
 
 void dollar_parsing(t_data *data)
 {
@@ -63,8 +46,20 @@ void dollar_parsing(t_data *data)
                 while(ft_isalpha(data->current->original_content[div.i]) || ft_isdigit(data->current->original_content[div.i]) || data->current->original_content[div.i] == '_')
                     div.i++;
             }
-            if(dollar_parsing_check(data, &div))
+            else if(data->current->original_content[0] == '?' && div.i == 0)
+            {
+                div.start++;
+                div.i++;
+                printf("🔵there will be hold this exit status\n");
+                //data->current = divide_lst(&data->tokens, data->current, &div);
+            }
+            else
+            {
+                div.type1 = ENV;
+                div.type2 = WORD;
+                data->current = divide_lst(&data->tokens, data->current, &div);
                 break;
+            }
         }
         if(data->current)
             data->current = data->current->next;
@@ -86,7 +81,7 @@ void dollar_insertion(t_data *data)
         data->current = data->current->next;
     }
     dollar_parsing(data);
-    //change_env_to_arg();
+    //change_key_to_value();
 }
 
 void single_string_insertion(t_data *data)
