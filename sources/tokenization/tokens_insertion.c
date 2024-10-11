@@ -28,11 +28,41 @@ int	ft_isalpha(int a)
 		return (1);
 }
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			*str;
+	size_t			mem;
+
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	mem = ft_strlen(s + start);
+	if (len < mem)
+		mem = len;
+	str = (char *)malloc((mem + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = start;
+	j = 0;
+	while (s[i] != '\0' && j < len && !(start > (unsigned int)ft_strlen(s)))
+	{
+		str[j] = s[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
 // printf("🔵there will be hold this exit status\n");
 
 void dollar_parsing(t_data *data)
 {
     t_div div;
+    char *new_cont;
 
     data->current = data->tokens;
     while(data->current)
@@ -48,10 +78,12 @@ void dollar_parsing(t_data *data)
             }
             else if(data->current->original_content[0] == '?' && div.i == 0)
             {
-                div.start++;
                 div.i++;
+                new_cont = ft_substr(data->current->original_content, div.i, ft_strlen(data->current->original_content));
+                free(data->current->original_content);
+                data->current->original_content = new_cont;
                 printf("🔵there will be hold this exit status\n");
-                //data->current = divide_lst(&data->tokens, data->current, &div);
+                break;
             }
             else
             {
@@ -68,15 +100,28 @@ void dollar_parsing(t_data *data)
 
 void dollar_insertion(t_data *data)
 {
+    char *new_cont;
+
     data->current = data->tokens;
     while(data->current)
     {
         if(data->current->quotes != 1 && data->current->original_content[0] == '$')
         {
-            if(data->current->next)
-                data->current->next->type = ENV;
-            data->current = ft_lst_delone(&data->tokens, data->current);
-            continue;
+            if(!data->current->next)
+                error_exit(data);            
+            data->current->next->type = ENV;
+            if(!ft_isalpha(data->current->original_content[0]) && !ft_isdigit(data->current->original_content[0]) && data->current->original_content[0] != '_')
+            {
+                data->current = ft_lst_delone(&data->tokens, data->current);
+                new_cont = ft_strjoin("$" , data->current->original_content);
+                free(data->current->original_content);
+                data->current->original_content = new_cont;
+            }
+            else
+            {
+                data->current = ft_lst_delone(&data->tokens, data->current);
+                continue;
+            }
         }
         data->current = data->current->next;
     }
@@ -97,7 +142,7 @@ void single_string_insertion(t_data *data)
         if(!data->current)
             return ;
         first = data->current;
-        while(data->current && data->current->quotes == 1)
+        while(data->current && (data->current->quotes == 1 && data->current->original_content[0] != '\''))
         {
             if(data->current->original_content[0] == '\'')
             {
@@ -128,7 +173,7 @@ void double_string_insertion(t_data *data)
         if(!data->current)
             return ;
         first = data->current;
-        while(data->current && data->current->quotes == 2)
+        while(data->current && (data->current->quotes == 2 && data->current->original_content[0] != '"'))
         {
             if(data->current->original_content[0] == '"')
             {
@@ -147,12 +192,48 @@ void double_string_insertion(t_data *data)
     }
 }
 
+void redir_insertion(t_data *data)
+{
+    t_token *first;
+    t_token *last;
+
+    data->current = data->tokens;
+    while(data->current)
+    {
+        first = data->current;
+        if(data->current->quotes == 0 && (data->current->original_content[0] == '>' && data->current->next->original_content[0] == '>'))
+        {
+            if(data->current->next->quotes == 0)
+            {
+                last = data->current->next;
+                data->current = connect_lst_in_one(&data->tokens, first, last, APPRED);
+                if(!data->current)
+                    error_exit(data);
+                continue;
+            }
+        }
+        else if(data->current->quotes == 0 && (data->current->original_content[0] == '>' || data->current->original_content[0] == '<'))
+        {
+            data->current->type = REDIR;
+            if(!data->current->next)
+                error_exit(data);
+        }
+        if(data->current)
+            data->current = data->current->next;
+        else
+            return ;    
+    }
+}
+
 void tokens_insertion(t_data *data)
 {
     single_string_insertion(data);
     dollar_insertion(data);
     print_data(data);
     double_string_insertion(data);
+    redir_insertion(data);
     print_data(data);
+    //space_insertion(data);
     //pipe_insertion(data);
+    //heredoc_insertion(data);
 }

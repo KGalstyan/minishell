@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/11 14:00:59 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:06:41 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         free(*lst);
         *lst = ptr;
         //stec NULL a ila, ete xndir ta poxi//
-        return (ptr->next);
+        return (ptr);
     }
     prev = NULL;
     ptr = *lst;

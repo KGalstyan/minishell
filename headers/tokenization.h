@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/09 18:17:54 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:36:30 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
 t_token *divide_lst(t_token **lst, t_token *selected, t_div *div);
 // void connect_lst_in_one(t_token **lst, t_token *first, t_token *last);
 
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif
