@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/21 19:35:07 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/21 20:40:17 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         free(ptr->original_content);
         free(ptr);
     }
-    if(!ptr->next)
-        return(NULL);
     return ptr->next;
 }
 

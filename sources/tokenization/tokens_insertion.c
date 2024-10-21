@@ -109,21 +109,15 @@ void dollar_insertion(t_data *data)
         {
             if(!data->current->next)
                 error_exit(data);            
-            data->current->next->type = ENV;
             if(data->current->original_content[0] == '$')
                 data->current = ft_lst_delone(&data->tokens, data->current);
-            if(!ft_isalpha(data->current->original_content[0]) && !ft_isdigit(data->current->original_content[0]) && data->current->original_content[0] != '_')
+            else if(!ft_isalpha(data->current->original_content[0]) && !ft_isdigit(data->current->original_content[0]) && data->current->original_content[0] != '_')
             {
-                //data->current = ft_lst_delone(&data->tokens, data->current);
                 new_cont = ft_strjoin("$" , data->current->original_content);
                 free(data->current->original_content);
                 data->current->original_content = new_cont;
             }
-            else
-            {
-                data->current = ft_lst_delone(&data->tokens, data->current);
-                continue;
-            }
+            data->current->type = ENV;
         }
         data->current = data->current->next;
     }
@@ -232,12 +226,12 @@ void redir_insertion(t_data *data)
 
 void tokens_insertion(t_data *data)
 {
-    single_string_insertion(data);
-    //dollar_insertion(data);
+    //single_string_insertion(data);
+    dollar_insertion(data);
     print_data(data);
-    double_string_insertion(data);
-    redir_insertion(data);
-    print_data(data);
+    //double_string_insertion(data);
+    //redir_insertion(data);
+    //print_data(data);
     //space_insertion(data);
     //pipe_insertion(data);
     //heredoc_insertion(data);
