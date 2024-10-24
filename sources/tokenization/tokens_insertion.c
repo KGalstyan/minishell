@@ -226,12 +226,12 @@ void redir_insertion(t_data *data)
 
 void tokens_insertion(t_data *data)
 {
-    //single_string_insertion(data);
+    single_string_insertion(data);
     dollar_insertion(data);
     print_data(data);
-    //double_string_insertion(data);
-    //redir_insertion(data);
-    //print_data(data);
+    double_string_insertion(data);
+    redir_insertion(data);
+    print_data(data);
     //space_insertion(data);
     //pipe_insertion(data);
     //heredoc_insertion(data);

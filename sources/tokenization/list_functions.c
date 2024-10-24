@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/21 20:40:17 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:36:23 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
     }
     return ptr->next;
 }
+
 
 
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type)
