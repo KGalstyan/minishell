@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/10 18:10:39 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:18:15 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void create_tokens(t_data *data)
                 break;
             data->i++;
         }
+        data->type = WORD;
         fill_tokens(data, data->i, data->j, data->quotes_flag);
     }
 }

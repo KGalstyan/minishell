@@ -1,4 +1,6 @@
 echo $
 echo $ $ $
-dollaric heto tveri pahy
-irar hajordox kpac "" '' 
+dollaric heto tveri pahy $111 ✅
+
+irar hajordox kpac "" ''
+type skzbic

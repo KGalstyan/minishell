@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/24 13:36:23 by kgalstya         ###   ########.fr       */
+/*   Created: 2024/10/24 14:08:28 by kgalstya          #+#    #+#             */
+/*   Updated: 2024/10/24 14:10:31 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         free(ptr->original_content);
         free(ptr);
     }
-    return ptr->next;
+    return (ptr->next);
 }
 
 

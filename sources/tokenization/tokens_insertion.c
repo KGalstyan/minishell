@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   tokens_insertion.c                                 :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-// /*   Updated: 2024/10/06 19:00:19 by kgalstya         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_insertion.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
+/*   Updated: 2024/10/24 15:20:56 by kgalstya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -73,6 +73,14 @@ void dollar_parsing(t_data *data)
         {
             if(ft_isalpha(data->current->original_content[div.i]) || ft_isdigit(data->current->original_content[div.i]) || data->current->original_content[div.i] == '_')
             {
+                if(ft_isdigit(data->current->original_content[div.i]) && div.i == 0)
+                {
+                    div.i++;
+                    new_cont = ft_substr(data->current->original_content, div.i, ft_strlen(data->current->original_content));
+                    free(data->current->original_content);
+                    data->current->original_content = new_cont;
+                    break;
+                }
                 while(ft_isalpha(data->current->original_content[div.i]) || ft_isdigit(data->current->original_content[div.i]) || data->current->original_content[div.i] == '_')
                     div.i++;
             }
@@ -122,7 +130,7 @@ void dollar_insertion(t_data *data)
         data->current = data->current->next;
     }
     dollar_parsing(data);
-    //change_key_to_value();
+    // change_key_to_value();
 }
 
 void single_string_insertion(t_data *data)
@@ -230,6 +238,7 @@ void tokens_insertion(t_data *data)
     dollar_insertion(data);
     print_data(data);
     double_string_insertion(data);
+    print_data(data);
     redir_insertion(data);
     print_data(data);
     //space_insertion(data);

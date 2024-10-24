@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/09 18:19:05 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:15:28 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
     int i;
     int j;
     int quotes_flag;
+    int type;
     t_token *tokens;
     t_token *current;
     char *input;
