@@ -6,40 +6,19 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/10/24 14:10:31 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:15:09 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+void ft_remove_list(t_token *prev, t_token *ptr)
 {
-	int		i;
-	int		n;
-	char	*res;
-
-	if (!s2)
-		return (NULL);
-	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	n = 0;
-	while (s1[i] != '\0')
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	while (s2[n] != '\0')
-	{
-		res[i] = s2[n];
-		n++;
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+        if (prev)
+          prev->next = ptr->next;
+        free(ptr->original_content);
+        free(ptr);
 }
-
 t_token *ft_lst_delone(t_token **lst, t_token *that_one) 
 {
     t_token *ptr;
@@ -53,7 +32,6 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         free((*lst)->original_content);
         free(*lst);
         *lst = ptr;
-        //stec NULL a ila, ete xndir ta poxi//
         return (ptr);
     }
     prev = NULL;
@@ -64,16 +42,9 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
         ptr = ptr->next;
     }
     if (ptr == that_one) 
-    {
-        if (prev)
-          prev->next = ptr->next;
-        free(ptr->original_content);
-        free(ptr);
-    }
-    return (ptr->next);
+        ft_remove_list(prev, ptr);
+    return(prev->next);
 }
-
-
 
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type)
 {
@@ -140,30 +111,7 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
         free(to_free->original_content);
         free(to_free);
     }
-    return new->next;
-}
-
-
-static char *ft_strncat(const char *str, int start, int end)
-{
-    int length;
-    char *new_str;
-    int n;
-    
-    if (start > end || start < 0 || end < 0)
-        return NULL;
-    length = end - start + 1;
-    n = 0;
-    new_str = (char *)malloc(length + 1);
-    if (!new_str)
-        return NULL;
-    while(n < length)
-    {
-        new_str[n] = str[start + n];
-        n++;
-    }
-    new_str[length] = '\0';
-    return new_str;
+    return tmp;
 }
 
 static int check_new_list(t_token *new1, t_token *new2, t_token *selected, t_div *div)
