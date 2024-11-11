@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/11 21:12:28 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:29:10 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int handle_redir(t_data *data)
 			}
 			data->current = ft_lst_delone(&data->tokens, data->current);
 		}
-		if(data->current)
+		else if(data->current)
 			data->current = data->current->next;
 		else
 			break;
