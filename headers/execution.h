@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:27:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 18:55:37 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:26:05 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ struct s_command
 {
 	char *name;
 	char **args;
-	
+	int stdout;
+	int stdin;
 	t_command *next;
 };
 

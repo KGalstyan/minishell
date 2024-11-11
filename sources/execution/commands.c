@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/11 19:33:05 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:12:28 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int count_commands(t_data *data)
 	data->current = data->tokens;
 	while(data->current)
 	{
-		if(data->current->type == PIPE)
+		if(data->current->type == PIPE && (data->current->type == WORD))
 			num++;
 		data->current = data->current->next;
 	}
@@ -68,6 +68,38 @@ void fill_commands(t_data *data)
 	}
 }
 
+int handle_redir(t_data *data)
+{
+	data->current = data->tokens;
+	data->curr_cmd = data->commands;
+	while(data->current)
+	{
+		if(data->current->type == REDIR && ((!data->current->next) || data->current->next->type != WORD))
+		{
+			parse_error("newline");
+			return(EXIT_FAILURE);
+		}
+		else if(data->current->type == REDIR && (data->current->next && data->current->next->type == WORD))
+		{
+			if(data->current->original_content[0] == '>')
+			{
+				data->current = ft_lst_delone(&data->tokens, data->current);
+				data->curr_cmd->stdout = open(data->current->original_content, O_RDWR | O_CREAT);
+			}
+			else
+			{
+				data->current = ft_lst_delone(&data->tokens, data->current);
+				data->curr_cmd->stdin = open(data->current->original_content, O_RDWR | O_CREAT);
+			}
+			data->current = ft_lst_delone(&data->tokens, data->current);
+		}
+		if(data->current)
+			data->current = data->current->next;
+		else
+			break;
+	}
+	return(EXIT_SUCCESS);
+}
 
 int create_commands(t_data *data)
 {
@@ -113,6 +145,7 @@ int create_commands(t_data *data)
 		i++;
 	}
 	data->curr_cmd = NULL;
+	set_g_exit_status(handle_redir(data));
 	print_a(data);
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 19:15:19 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:54:22 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
