@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/28 17:15:37 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:46:56 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void print_data(t_data *data)
 void error_exit(t_data *data)
 {
     printf("⛔️ INCORRECT INPUT\n");
-    free_data(data);
+    free_tokens(data);
     //("leaks minishell");
     exit(4);
 }
@@ -77,17 +77,17 @@ void tokenization(t_data *data)
     print_data(data);
     tokens_insertion(data);
 }
-void start_shell(t_data *data)
-{
-    while(1)
-    {
-        data->input = readline(BLUE "Verishen: " RESET_COLOR);
-        if (data->input)
-            add_history(data->input);
-        // print_data(data);
-        tokenization(data);
-        printf("✅ CORRECT INPUT\n");
-        free_data(data);
-        //("leaks minishell");
-    }
-}
+// void start_shell(t_data *data)
+// {
+//     while(1)
+//     {
+//         data->input = readline(BLUE "Verishen: " RESET_COLOR);
+//         if (data->input)
+//             add_history(data->input);
+//         // print_data(data);
+//         tokenization(data);
+//         printf("✅ CORRECT INPUT\n");
+//         free_tokens(data);
+//         //("leaks minishell");
+//     }
+// }

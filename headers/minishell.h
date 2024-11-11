@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:33 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:50:23 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,61 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "tokenization.h"
+#include <termios.h>
+#include <errno.h>
+#include <string.h>
 
-typedef struct s_data
+typedef struct s_command t_command;
+
+typedef struct s_env_export t_env_export;
+
+typedef struct s_token t_token;
+
+typedef struct s_data t_data;
+
+
+struct s_data
 {
-    char **env;
+    // Vitali
+    struct t_env_export *export;
+    struct t_env_export *env;
+
+
+    // Karen
     int i;
     int j;
     int quotes_flag;
     int type;
+	t_command *commands;
+	t_command *curr_cmd;
     t_token *tokens;
     t_token *current;
     char *input;
-}               t_data;
+};
+
+struct t_env_export
+{
+    char *key;
+    char *value;
+    struct t_env_export *next;
+};
 
 #include "libft.h"
 #include "helpers.h"
+#include "builtin.h"
+#include "execution.h"
+#include "tokenization.h"
 
+void rl_replace_line (const char *, int);
+extern void rl_clear_history (void);
 
-void start_shell(t_data *data);
-void error_exit(t_data *data);
-void print_data(t_data *data);
-
-////tokenization//////
-
-int fill_tokens(t_data *data, int i, int j, int quotes);
-int check_pipe_red_env(t_data *data);
-int check_quotes(t_data *data);
-int check_space(t_data *data);
-void free_data(t_data *data);
-
-void allot_quotes_value(t_data *data);
-void tokens_insertion(t_data *data);
+// void tokenization(t_data *data);
+// void start_shell(t_data *data);
+// void	ft_lstadd_back(t_token **lst, t_token *new);
+// t_token	*ft_lstnew(void *content);
 
 #endif

@@ -1,6 +1,0 @@
-echo $ ✅
-echo $ $ $ ✅
-dollaric heto tveri pahy $111 ✅
-irar hajordox kpac "" '' ✅
-space i pahy 
--n i validacia

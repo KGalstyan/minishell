@@ -6,15 +6,51 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:00:08 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/26 13:32:25 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:27:10 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-// void	ft_lstadd_back(t_token **lst, t_token *new)
+void	ft_lstadd_back(t_token **lst, t_token *new)
+{
+	t_token	*add;
+
+	add = *lst;
+	if (!new)
+		return ;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (add->next != NULL)
+			add = add->next;
+		add->next = new;
+        new->next = NULL;
+	}
+}
+
+void	ft_lstadd_back_cmd(t_command **lst, t_command *new)
+{
+	t_command	*add;
+
+	add = *lst;
+	if (!new)
+		return ;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (add->next != NULL)
+			add = add->next;
+		add->next = new;
+        new->next = NULL;
+	}
+}
+
+// void	ft_lstadd_back(t_list **lst, t_list *new)
 // {
-// 	t_token	*add;
+// 	t_list	*add;
 
 // 	add = *lst;
 // 	if (!new)
@@ -26,6 +62,5 @@
 // 		while (add->next != NULL)
 // 			add = add->next;
 // 		add->next = new;
-//         //new->next = NULL;
 // 	}
 // }
