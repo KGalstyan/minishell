@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/11 19:37:26 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:14:03 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void				sort_array(char **str);
 void				print_list(struct t_env_export *env);
 void	minishell_error(char *cmd, char *arg, char *msg);
 int check_variable_name(char *name);
+void parse_error(char *arg);
 
 //---- Clean data -----
 void				clean_data(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/11 15:56:00 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:48:28 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,25 @@ int dollar_insertion(t_data *data)
             data->current = data->current->next;
     }
     dollar_parsing(data);
+
+	char *new_content;
 	data->current = data->tokens;
 	while(data->current)
 	{
 		if(data->current->type == ENV)
 		{
-    		data->current->original_content = get_value_from_env(data->env ,data->current->original_content);
+    		new_content = ft_strdup(get_value_from_env(data->env ,data->current->original_content));
+			free(data->current->original_content);
+			data->current->original_content = new_content;
 			if(!data->current->original_content)
-			data->current->type = WORD;
+				data->current = ft_lst_delone(&data->tokens, data->current);
+			else
+				data->current->type = WORD;
 		}
-		data->current = data->current->next;
+		if(data->current)
+			data->current = data->current->next;
+		else
+			break;
 	}
 	return (1);
 }
@@ -272,6 +281,26 @@ void space_insertion(t_data *data)
     }
 }
 
+int pipe_insertion(t_data *data)
+{
+	data->current = data->tokens;
+	if(data->current->type == PIPE)
+	{
+		parse_error("|");
+		return(EXIT_FAILURE);
+	}
+	while(data->current)
+	{
+		if(data->current->type == PIPE && (!data->current->next))
+		{
+			parse_error("|");
+			return(EXIT_FAILURE);
+		}
+		data->current = data->current->next;
+	}
+	return(EXIT_SUCCESS);
+}
+
 void tokens_insertion(t_data *data)
 {
     remove_brakets(data);
@@ -283,9 +312,9 @@ void tokens_insertion(t_data *data)
     double_string_insertion(data);
     // print_data(data);
     redir_insertion(data);
-	print_data(data);
+	// print_data(data);
     space_insertion(data);
-    print_data(data);
-    //pipe_insertion(data);
+    // print_data(data);
+    set_g_exit_status(pipe_insertion(data));
     // heredoc_insertion(data);
 }

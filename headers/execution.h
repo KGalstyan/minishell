@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:27:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 16:27:35 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:55:37 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ struct s_command
 {
 	char *name;
 	char **args;
+	
 	t_command *next;
 };
 
@@ -27,6 +28,8 @@ void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	init_signals(void);
 int		create_commands(t_data *data);
+
+t_command	*ft_lstnew_cmd(void);
 void	ft_lstadd_back_cmd(t_command **lst, t_command *new);
 
 

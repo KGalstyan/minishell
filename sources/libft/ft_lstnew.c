@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:58:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/31 16:36:10 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:48:56 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenization.h"
+#include "minishell.h"
 
 t_token	*ft_lstnew(int quotes)
 {
@@ -20,6 +20,17 @@ t_token	*ft_lstnew(int quotes)
 	if (!new)
 		return (NULL);
 	new->quotes = quotes;
+	new->next = NULL;
+	return (new);
+}
+
+t_command	*ft_lstnew_cmd(void)
+{
+	t_command	*new;
+
+	new = (t_command *)malloc(sizeof(t_command));
+	if (!new)
+		return (NULL);;
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 13:50:23 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:15:19 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ struct t_env_export
 
 void rl_replace_line (const char *, int);
 extern void rl_clear_history (void);
+void set_g_exit_status(int new_status);
+int get_g_exit_status();
 
 // void tokenization(t_data *data);
 // void start_shell(t_data *data);

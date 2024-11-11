@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/03 17:14:00 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:42:44 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ void ft_remove_list(t_token *prev, t_token *ptr)
 {
         if (prev)
           prev->next = ptr->next;
-        free(ptr->original_content);
+		if(ptr->original_content)
+        	free(ptr->original_content);
         free(ptr);
 }
-t_token *ft_lst_delone(t_token **lst, t_token *that_one) 
+t_token *ft_lst_delone(t_token **lst, t_token *that_one)
 {
     t_token *ptr;
     t_token *prev;
-    
+
     if (!lst || !*lst || !that_one)
         return NULL;
-    if (*lst == that_one) 
+    if (*lst == that_one)
     {
         ptr = (*lst)->next;
         free((*lst)->original_content);
@@ -36,12 +37,12 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
     }
     prev = NULL;
     ptr = *lst;
-    while (ptr && ptr != that_one) 
+    while (ptr && ptr != that_one)
     {
         prev = ptr;
         ptr = ptr->next;
     }
-    if (ptr == that_one) 
+    if (ptr == that_one)
         ft_remove_list(prev, ptr);
     return(prev->next);
 }
@@ -116,7 +117,7 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
 
 static int check_new_list(t_token *new1, t_token *new2, t_token *selected, t_div *div)
 {
-    if (!new1 || !new2) 
+    if (!new1 || !new2)
     {
         free(new1);
         free(new2);
@@ -144,7 +145,7 @@ t_token *divide_lst(t_token **lst, t_token *selected, t_div *div)
     t_token *ptr;
     t_token *new1;
     t_token *new2;
-    
+
     if (!lst || !*lst || !selected)
         return NULL;
     new1 = malloc(sizeof(t_token));

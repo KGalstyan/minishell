@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:03:31 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/28 18:22:45 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:13:52 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void clarify_shlvl(struct t_env_export *env_export)
     int shlvl;
     struct t_env_export *temp;
     char *str;
-    
+
     temp = env_export;
     while (temp && ft_strcmp("SHLVL", temp->key) != 0)
     {
@@ -35,7 +35,7 @@ void clarify_shlvl(struct t_env_export *env_export)
 }
 
 // int check_variable_name(char *str)
-// {   
+// {
 //     // if (!str)
 //     //     return (EXIT_FAILURE);
 //     if(*str != '_' && !ft_isalpha(*str))
@@ -51,6 +51,15 @@ void exit_shell(t_data *data, int exit_signal)
 {
     clean_data(data);
     exit(exit_signal);
+}
+
+void parse_error(char *arg)
+{
+    ft_putstr_fd("minishell: ", STDERR_FILENO);
+    ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+    ft_putstr_fd(arg, STDERR_FILENO);
+    ft_putendl_fd("'", STDERR_FILENO);
+    // ft_putstr_fd("'", STDERR_FILENO);
 }
 void minishell_error(char *command, char *arg, char *message)
 {

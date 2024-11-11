@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/03 16:54:23 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:44:12 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void free_tokens(t_data *data)
 {
-    t_token *current = data->tokens;
     t_token *next;
 
-    while (current != NULL) 
+    data->current = data->tokens;
+    while (data->current)
     {
-        next = current->next;
-        if (current->original_content)
+        next = data->current->next;
+        if (data->current->original_content)
         {
-            free(current->original_content);
-            current->original_content = NULL;
+			free(data->current->original_content);
+            data->current->original_content = NULL;
         }
-        free(current);
-        current = next;
+        free(data->current);
+        data->current = next;
     }
     data->tokens = NULL;
     free(data->input);
