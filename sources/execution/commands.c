@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/11 21:29:10 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:02:29 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int count_commands(t_data *data)
 	data->current = data->tokens;
 	while(data->current)
 	{
-		if(data->current->type == PIPE && (data->current->type == WORD))
+		if(data->current->type == PIPE) //&& (data->current->type == WORD))
 			num++;
 		data->current = data->current->next;
 	}
@@ -74,7 +74,12 @@ int handle_redir(t_data *data)
 	data->curr_cmd = data->commands;
 	while(data->current)
 	{
-		if(data->current->type == REDIR && ((!data->current->next) || data->current->next->type != WORD))
+		if(data->current->type == REDIR && data->current->next && (data->current->next->type == REDIR || data->current->next->type == HEREDOC))
+		{
+			parse_error(">>");
+			return(EXIT_FAILURE);
+		}
+		else if(data->current->type == REDIR && ((!data->current->next) || data->current->next->type != WORD))
 		{
 			parse_error("newline");
 			return(EXIT_FAILURE);
@@ -120,6 +125,7 @@ int create_commands(t_data *data)
     	ft_lstadd_back_cmd(&data->commands, tmp);
 		i++;
 	}
+	set_g_exit_status(handle_redir(data));
 	i = 0;
 	data->curr_cmd = data->commands;
 	data->current = data->tokens;
@@ -145,7 +151,7 @@ int create_commands(t_data *data)
 		i++;
 	}
 	data->curr_cmd = NULL;
-	set_g_exit_status(handle_redir(data));
+	print_data(data);
 	print_a(data);
 	return(0);
 }
