@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 19:45:22 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 21:10:42 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:31:28 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int start_shell(t_data *data)
 		if (!data->input)
 			return(1);
         tokenization(data);
-        print_data(data);
+        // print_data(data);
 		if(get_g_exit_status() == EXIT_SUCCESS)
 			create_commands(data);
         printf("✅ CORRECT INPUT\n");

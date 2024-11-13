@@ -96,11 +96,11 @@ config:
 	./readline_config.sh readline_local
 
 ${NAME}: ${OBJS} Makefile
-	@${CC} ${CFLAGS} -I/readline_local/lib/readline -I$(HEADER_DIR) ${OBJS} -o ${NAME} -Lreadline_local/lib -lreadline
+	@${CC} ${CFLAGS}  -I$(HEADER_DIR) -I./readline_local/include ${OBJS} -Lreadline_local/lib -lreadline -o ${NAME}
 
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -I$(HEADER_DIR)  -c $< -o $@
+	$(CC) $(CFLAGS)  -I$(HEADER_DIR) -I./readline_local/include -c $< -o $@
 
 clean:
 	rm -rf ${OBJ_DIR}

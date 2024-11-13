@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/12 19:29:50 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:53:18 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int dollar_insertion(t_data *data)
     {
         if((data->current->next && data->current->quotes != 1) && data->current->original_content[0] == '$' && (data->current->quotes == data->current->next->quotes))
         {
-            if(data->current->next && data->current->next->type == SPACE)
+            if(data->current->next && data->current->next->type == SPACEO)
             {
                 data->current = ft_lst_delone(&data->tokens, data->current);
                 new_cont = ft_strjoin("$" , data->current->original_content);
@@ -250,7 +250,7 @@ void connect_tokens(t_data *data)
     {
         last = data->current;
         first = data->current;
-        while(data->current && (data->current->type != SPACE && data->current->type != PIPE && data->current->type != REDIR))
+        while(data->current && (data->current->type != SPACEO && data->current->type != PIPE && data->current->type != REDIR))
         {
             last = data->current;
             if(data->current->next)
@@ -273,7 +273,7 @@ void space_insertion(t_data *data)
     data->current = data->tokens;
     while(data->current)
     {
-        if(data->current->type == SPACE && data->current->quotes == 0)
+        if(data->current->type == SPACEO && data->current->quotes == 0)
             data->current = ft_lst_delone(&data->tokens, data->current);
         ///// poxel yst anhrajeshtutyan /////
         else
@@ -284,7 +284,7 @@ void space_insertion(t_data *data)
 int pipe_insertion(t_data *data)
 {
 	data->current = data->tokens;
-	if(data->current->type == PIPE)
+	if(data->current && data->current->type == PIPE)
 	{
 		parse_error("|");
 		return(EXIT_FAILURE);

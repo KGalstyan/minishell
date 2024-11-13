@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/12 20:02:29 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/13 23:06:29 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,29 @@ int count_commands(t_data *data)
 
 	num = 1;
 	data->current = data->tokens;
+	if(data->current && data->current->type == PIPE)
+		data->current = data->current->next;
 	while(data->current)
 	{
-		if(data->current->type == PIPE) //&& (data->current->type == WORD))
+		if(data->current && data->current->next && data->current->type == REDIR)
+		{
+			data->current = data->current->next;
+			data->current = data->current->next;
+			if(data->current && data->current->type == PIPE)
+				data->current = data->current->next;
+			continue;
+		}
+		else if(data->current && data->current->type == PIPE) //&& (data->current->type == WORD))
+		{
 			num++;
-		data->current = data->current->next;
+			data->current = data->current->next;
+		}
+		else
+			data->current = data->current->next;
 	}
 	return(num);
 }
-void print_a(t_data *data)
+void print_a(t_data *data __attribute__((unused)))
 {
     t_command *pr_cmd = data->commands;
 
@@ -35,7 +49,13 @@ void print_a(t_data *data)
     while(pr_cmd)
     {
 		i = 0;
-		printf("	NAME  ->>>>>> %s\n", pr_cmd->name);
+		if(pr_cmd->name)
+			printf("	NAME  ->>>>>> %s\n", pr_cmd->name);
+		if(!pr_cmd->args)
+		{
+			pr_cmd = pr_cmd->next;
+			continue;
+		}
 		while(pr_cmd->args[i])
 		{
 			printf("	ARGS ->>>>>> %s\n", pr_cmd->args[i]);
@@ -68,6 +88,24 @@ void fill_commands(t_data *data)
 	}
 }
 
+void open_file_and_remove_token(t_data *data)
+{
+	if(data->current->original_content[0] == '>')
+	{
+		data->current = ft_lst_delone(&data->tokens, data->current);
+		data->curr_cmd->stdout = open(data->current->original_content, O_RDWR | O_CREAT);
+		// if(data->curr_cmd->stdout < 0)
+
+	}
+	else
+	{
+		data->current = ft_lst_delone(&data->tokens, data->current);
+		data->curr_cmd->stdin = open(data->current->original_content, O_RDWR | O_CREAT);
+		// if(data->curr_cmd->stdin < 0)
+	}
+	data->current = ft_lst_delone(&data->tokens, data->current);
+}
+
 int handle_redir(t_data *data)
 {
 	data->current = data->tokens;
@@ -77,27 +115,17 @@ int handle_redir(t_data *data)
 		if(data->current->type == REDIR && data->current->next && (data->current->next->type == REDIR || data->current->next->type == HEREDOC))
 		{
 			parse_error(">>");
+			set_g_exit_status(EXIT_FAILURE);
 			return(EXIT_FAILURE);
 		}
 		else if(data->current->type == REDIR && ((!data->current->next) || data->current->next->type != WORD))
 		{
 			parse_error("newline");
+			set_g_exit_status(EXIT_FAILURE);
 			return(EXIT_FAILURE);
 		}
 		else if(data->current->type == REDIR && (data->current->next && data->current->next->type == WORD))
-		{
-			if(data->current->original_content[0] == '>')
-			{
-				data->current = ft_lst_delone(&data->tokens, data->current);
-				data->curr_cmd->stdout = open(data->current->original_content, O_RDWR | O_CREAT);
-			}
-			else
-			{
-				data->current = ft_lst_delone(&data->tokens, data->current);
-				data->curr_cmd->stdin = open(data->current->original_content, O_RDWR | O_CREAT);
-			}
-			data->current = ft_lst_delone(&data->tokens, data->current);
-		}
+			open_file_and_remove_token(data);
 		else if(data->current)
 			data->current = data->current->next;
 		else
@@ -114,6 +142,7 @@ int create_commands(t_data *data)
 	t_command *tmp;
 
 	cmd_count = count_commands(data);
+	// printf("========= %d \n", cmd_count);
 	i = 0;
 	j = 0;
 	data->commands = ft_lstnew_cmd();
@@ -125,10 +154,14 @@ int create_commands(t_data *data)
     	ft_lstadd_back_cmd(&data->commands, tmp);
 		i++;
 	}
-	set_g_exit_status(handle_redir(data));
+	if(get_g_exit_status(handle_redir(data)))
+		return(EXIT_FAILURE);
+	print_data(data);
 	i = 0;
 	data->curr_cmd = data->commands;
 	data->current = data->tokens;
+	if(!data->current)
+		return(0);
 	while(data->current && i < cmd_count)
 	{
 		if(data->current->type == PIPE)
@@ -147,11 +180,14 @@ int create_commands(t_data *data)
 		data->curr_cmd->args[j] = NULL;
 		if(data->current)
 			data->current = data->current->next;
-		data->curr_cmd = data->curr_cmd->next;
+		if(data->curr_cmd)
+			data->curr_cmd = data->curr_cmd->next;
+		else
+			data->curr_cmd->next = NULL;
 		i++;
 	}
-	data->curr_cmd = NULL;
-	print_data(data);
+	if(!data->curr_cmd)
+		data->curr_cmd = NULL;
 	print_a(data);
 	return(0);
 }

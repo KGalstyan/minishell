@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 20:54:22 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:46:27 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "readline/readline.h"
+#include "readline/history.h"
 
 #include <termios.h>
 #include <errno.h>
@@ -68,8 +68,8 @@ struct t_env_export
 #include "execution.h"
 #include "tokenization.h"
 
-void rl_replace_line (const char *, int);
-extern void rl_clear_history (void);
+// void rl_replace_line (const char *, int);
+// extern void rl_clear_history (void);
 void set_g_exit_status(int new_status);
 int get_g_exit_status();
 

@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 19:20:41 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:55:45 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void tokenization(t_data *data)
 {
     create_tokens(data);
     allot_quotes_value(data);
-	print_data(data);
     tokens_insertion(data);
+	// print_data(data);
 }
 // void start_shell(t_data *data)
 // {
