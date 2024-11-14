@@ -25,3 +25,6 @@ ICANON: Canonical mode (input is processed line-by-line).
 ECHO: Echo input characters as they are typed.
 ISIG: Enable signal generation for certain key sequences (e.g., Ctrl-C for interrupt).
 ECHOCTL: Echo control characters in a readable format (e.g., ^C for Ctrl-C).
+
+
+echo hello > $fhdsakjhfdsa

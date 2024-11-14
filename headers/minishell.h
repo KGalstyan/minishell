@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/13 19:46:27 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:40:25 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ struct s_data
     int j;
     int quotes_flag;
     int type;
+	int tmp_fd;
 	t_command *commands;
 	t_command *curr_cmd;
     t_token *tokens;

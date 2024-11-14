@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/13 23:06:29 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:29:29 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,32 @@ void fill_commands(t_data *data)
 	}
 }
 
-void open_file_and_remove_token(t_data *data)
+int open_file_and_remove_token(t_data *data)
 {
 	if(data->current->original_content[0] == '>')
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
-		data->curr_cmd->stdout = open(data->current->original_content, O_RDWR | O_CREAT);
-		// if(data->curr_cmd->stdout < 0)
-
+		data->curr_cmd->stdout = open(data->current->original_content, O_WRONLY | O_CREAT | O_APPEND, 0664);
+		if(data->curr_cmd->stdout < 0)
+		{
+			printf("minishell: %s: %s\n", data->current->original_content, (strerror(errno)));
+			set_g_exit_status(EXIT_FAILURE);
+			return(EXIT_FAILURE);
+		}
 	}
 	else
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
-		data->curr_cmd->stdin = open(data->current->original_content, O_RDWR | O_CREAT);
-		// if(data->curr_cmd->stdin < 0)
+		data->curr_cmd->stdin = open(data->current->original_content, O_RDONLY);
+		if(data->curr_cmd->stdin < 0)
+		{
+			printf("minishell: %s: %s\n", data->current->original_content, (strerror(errno)));
+			set_g_exit_status(EXIT_FAILURE);
+			return(EXIT_FAILURE);
+		}
 	}
 	data->current = ft_lst_delone(&data->tokens, data->current);
+	return(EXIT_SUCCESS);
 }
 
 int handle_redir(t_data *data)
@@ -125,7 +135,10 @@ int handle_redir(t_data *data)
 			return(EXIT_FAILURE);
 		}
 		else if(data->current->type == REDIR && (data->current->next && data->current->next->type == WORD))
-			open_file_and_remove_token(data);
+		{
+			if(open_file_and_remove_token(data))
+				return(EXIT_FAILURE);
+		}
 		else if(data->current)
 			data->current = data->current->next;
 		else

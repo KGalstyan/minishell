@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/13 19:53:18 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:31:42 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,11 @@ int pipe_insertion(t_data *data)
 		if(data->current->type == PIPE && (!data->current->next))
 		{
 			parse_error("|");
+			return(EXIT_FAILURE);
+		}
+		if(data->current->type == PIPE && data->current->next && data->current->next->type == PIPE)
+		{
+			parse_error("||");
 			return(EXIT_FAILURE);
 		}
 		data->current = data->current->next;

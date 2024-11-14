@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:27:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 20:26:05 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:50:20 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	init_signals(void);
 int		create_commands(t_data *data);
+int heredoc_parcing(t_data *data);
 
 t_command	*ft_lstnew_cmd(void);
 void	ft_lstadd_back_cmd(t_command **lst, t_command *new);
