@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 19:14:03 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:45:56 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,23 @@ int					count_array_len(char **str);
 void				sort_array(char **str);
 void				print_list(struct t_env_export *env);
 void	minishell_error(char *cmd, char *arg, char *msg);
+void minishell_error2(char *command, char *arg, char *message);
 int check_variable_name(char *name);
 void parse_error(char *arg);
+
+//---- Global exit status
+void set_g_exit_status(int new_status);
+int get_g_exit_status();
+
 
 //---- Clean data -----
 void				clean_data(t_data *data);
 void				exit_shell(t_data *data, int exit_signal);
 void free_env_node(struct t_env_export *node);
 void				free_env_export(struct t_env_export *env_export);
+
+// ---- signal
+void init_signals(void);
 
 
 #endif

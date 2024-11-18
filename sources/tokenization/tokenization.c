@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/13 19:55:45 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:37:59 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,14 @@ void print_data(t_data *data)
     printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
 }
 
-void error_exit(t_data *data)
-{
-    printf("⛔️ INCORRECT INPUT\n");
-    free_tokens(data);
-    //("leaks minishell");
-    exit(4);
-}
-
 void tokenization(t_data *data)
 {
     create_tokens(data);
     allot_quotes_value(data);
+	if(get_g_exit_status() != EXIT_SUCCESS)
+		return ;
     tokens_insertion(data);
-	// print_data(data);
+	print_data(data);
 }
 // void start_shell(t_data *data)
 // {

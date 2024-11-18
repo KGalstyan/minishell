@@ -6,16 +6,16 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:04:04 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/10/06 18:43:03 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:36:57 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void check_quotes_close(t_data *data)
+int  check_quotes_close(t_data *data)
 {
     int i;
-    
+
     i = 0;
     while(data->input[i])
     {
@@ -24,17 +24,20 @@ void check_quotes_close(t_data *data)
             i++;
             while(data->input[i] && data->input[i] != '\'')
                 i++;
+			if(!data->input[i])
+            	return(parse_error("'"), EXIT_FAILURE);
         }
         else if(data->input[i] && data->input[i] == '"')
         {
             i++;
             while(data->input[i] && data->input[i] != '"')
                 i++;
+			if(!data->input[i])
+            	return(parse_error("\"") , EXIT_FAILURE);
         }
-        if(!data->input[i])
-            error_exit(data);
         i++;
     }
+	return(EXIT_SUCCESS);
 }
 
 static int allot_double_quotes_value(t_data *data)
@@ -94,7 +97,8 @@ void allot_quotes_value(t_data *data)
 
     i = 0;
     data->current = data->tokens;
-    check_quotes_close(data);
+    if(check_quotes_close(data))
+		return (set_g_exit_status(EXIT_FAILURE));
     while(data->current)
     {
         if(data->current->original_content[i] == '"')

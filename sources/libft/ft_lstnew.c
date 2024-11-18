@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:58:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 17:48:56 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:47:01 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ t_command	*ft_lstnew_cmd(void)
 
 	new = (t_command *)malloc(sizeof(t_command));
 	if (!new)
-		return (NULL);;
+		return (NULL);
+	new->name = NULL;
+	new->args = NULL;
 	new->next = NULL;
 	return (new);
 }

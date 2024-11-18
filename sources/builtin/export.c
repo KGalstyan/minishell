@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:32:07 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/28 18:19:02 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:13:37 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void print_export(struct t_env_export *export)
 
 struct t_env_export *add_oldpwd(t_data *data)
 {
-    struct t_env_export *oldpwd;
+    struct t_env_export *oldpwd = NULL;
     struct t_env_export *temp;
     
     temp = data->export;
@@ -44,13 +44,13 @@ struct t_env_export *add_oldpwd(t_data *data)
         if(!oldpwd)
             exit_shell(data, MALLOC_ERR);
         oldpwd->key = ft_strdup("OLDPWD");
+        oldpwd->value = NULL;
         oldpwd->next = data->export;
         return (oldpwd);
     }
     else
         return (data->export);
 }
-
 
 // int add_node(struct t_env_export **export, char *key, char *value)
 // {
@@ -71,6 +71,7 @@ struct t_env_export *add_oldpwd(t_data *data)
 //     // free_env_node(node);
 //     return (EXIT_SUCCESS);
 // }
+
 struct t_env_export *add_node(struct t_env_export *export, char *key, char *value)
 {
     struct t_env_export *node;
@@ -152,8 +153,8 @@ struct t_env_export *export(struct t_env_export *export, char **args)
 //             export = set_variable(export, args[i]);
 //             if(!export)
 //                 return (EXIT_FAILURE);
-//             // if(set_variable(export, args[i]) != EXIT_SUCCESS)
-//             //     return (EXIT_FAILURE);
+//             if(set_variable(export, args[i]) != EXIT_SUCCESS)
+//                 return (EXIT_FAILURE);
 //         }
 //         else
 //             minishell_error("export", args[i], "not a valid identifier");

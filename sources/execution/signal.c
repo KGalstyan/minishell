@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 16:36:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/10 16:04:54 by kgalstya         ###   ########.fr       */
+/*   Created: 2024/11/11 16:51:02 by vkostand          #+#    #+#             */
+/*   Updated: 2024/11/11 16:51:04 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ void init_signals(void)
     signal(SIGQUIT, handle_sigquit);
     signal(SIGINT, handle_sigint);
 }
-

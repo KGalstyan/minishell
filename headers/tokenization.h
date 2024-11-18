@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/13 19:52:44 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:41:17 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ typedef enum s_quotes t_quotes;
 typedef enum s_type t_type;
 typedef struct s_token t_token;
 typedef struct s_data t_data;
-
 
 enum s_quotes
 {
@@ -55,9 +54,23 @@ typedef struct s_div
     int start;
     int type1;
     int type2;
-
 }          t_div;
 
+typedef struct s_new_token
+{
+    t_token *new;
+    t_token *ptr;
+    t_token *tmp;
+    char *new_origcont;
+    char *tmp_origcont;
+    t_token *to_free;
+}          t_new_token;
+
+typedef struct s_ptr
+{
+	t_token	*first;
+	t_token	*last;
+}          t_ptr;
 
 void tokenization(t_data *data);
 void free_tokens(t_data *data);
@@ -79,17 +92,23 @@ int check_pipe_red_env(t_data *data);
 int check_quotes(t_data *data);
 int check_space(t_data *data);
 void free_data(t_data *data);
+void make_new_cont(t_data *data, t_div	*div, char	*new_cont);
 
 void allot_quotes_value(t_data *data);
 void tokens_insertion(t_data *data);
-
+int	dollar_insertion(t_data *data);
+void	space_insertion(t_data *data);
+int	pipe_insertion(t_data *data);
+int	heredoc_insertion(t_data *data);
+void	single_string_insertion(t_data *data);
+void	double_string_insertion(t_data *data);
+void	remove_brakets(t_data *data);
 
 // void ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type);
 t_token *divide_lst(t_token **lst, t_token *selected, t_div *div);
 // void connect_lst_in_one(t_token **lst, t_token *first, t_token *last);
-void error_exit(t_data *data);
 
 
 #endif

@@ -5,10 +5,10 @@ CC = cc
 
 SRCS = main.c
 
-HEADER = libft.h \
+HEADER =  libft.h \
           helpers.h \
+          builtin.h \
           minishell.h \
-		  builtin.h \
           tokenization.h
 
 VALIDATION =
@@ -22,19 +22,30 @@ HELPERS = merge.c \
            initialization.c
 
 EXECUTION = processes.c \
-			signal.c \
-			commands.c
+            lexer.c \
+            commands.c \
+            chisht_command.c \
+            execute.c \
+            signal.c \
+            redirs.c \
+            heredoc.c \
+            pipe.c
 
 TOKENIZATION = tokenization.c \
                tokenization_utils.c \
                tokens_quotes_type.c \
                tokens_insertion.c \
-               list_functions.c
+			   tokens_insertion_2.c \
+			   dollar_insertion.c \
+               list_functions.c \
+			   brakets_insertion.c \
+			   connect_lists.c
 
-BUILIN = cd.c \
+BUILTIN = cd.c \
          env.c \
          pwd.c \
          echo.c \
+         exit.c \
          unset.c \
          export.c \
          cd_helpers.c \
@@ -57,13 +68,17 @@ LIBFT = ft_lstadd_back.c \
         ft_putchar_fd.c \
         ft_putendl_fd.c \
         ft_substr.c \
-        ft_strncat.c
+        ft_memset.c \
+		ft_split.c \
+		ft_strlcpy.c \
+        ft_strncat.c \
+        ft_bzero.c
 
 OBJ_DIR = ./objects/
 SRCS_DIR = ./sources/
 HEADER_DIR = ./headers/
 LIBFT_DIR = ./sources/libft/
-BUILIN_DIR = ./sources/builtin/
+BUILTIN_DIR = ./sources/builtin/
 HELPERS_DIR = ./sources/helpers/
 EXECUTION_DIR = ./sources/execution/
 VALIDATION_DIR = ./sources/validation/
@@ -74,14 +89,14 @@ $(shell mkdir -p $(OBJ_DIR))
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 LIBFT := $(addprefix $(LIBFT_DIR), $(LIBFT))
 HEADER := $(addprefix $(HEADER_DIR), $(HEADER))
-BUILIN := $(addprefix $(BUILIN_DIR), $(BUILIN))
+BUILTIN := $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 HELPERS := $(addprefix $(HELPERS_DIR), $(HELPERS))
 EXECUTION := $(addprefix $(EXECUTION_DIR), $(EXECUTION))
 VALIDATION := $(addprefix $(VALIDATION_DIR), $(VALIDATION))
 TOKENIZATION := $(addprefix $(TOKENIZATION_DIR), $(TOKENIZATION))
 
 SRCS += $(LIBFT)
-SRCS += $(BUILIN)
+SRCS += $(BUILTIN)
 SRCS += $(HELPERS)
 SRCS += $(EXECUTION)
 SRCS += $(VALIDATION)

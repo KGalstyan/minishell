@@ -1,0 +1,6 @@
+// builtins
+exit
+pwd
+env
+unset
+echo (except $?)

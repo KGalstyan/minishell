@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:07:05 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/25 21:48:26 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:16:06 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,22 @@
 
 void print_list(struct t_env_export *env)
 {
-	while(env)
+	struct t_env_export *temp;
+	
+	temp = env;
+	if(!temp)
+		return ;
+	while(temp)
 	{
-		if(env->key && env->value)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
+		if(temp->key && temp->value)
+		{
+			write(STDOUT_FILENO, temp->key, ft_strlen(temp->key));
+			write(STDOUT_FILENO, "=", 1);
+			write(STDOUT_FILENO, temp->value, ft_strlen(temp->value));
+			write(STDOUT_FILENO, "\n", 1);
+			// printf("%s=%s\n", temp->key, temp->value);
+		}
+		temp = temp->next;
 	}
 }
 

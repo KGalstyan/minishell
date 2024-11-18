@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:30:53 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 15:55:49 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:30:52 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int update_env(struct t_env_export *env, char *key, char *value)
     temp = env;
     while(temp)
     {
-        if(ft_strcmp(env->key, key) == 0)
+        if(ft_strcmp(temp->key, key) == 0)
         {
-            free(temp->value);
-            temp->value = value;//ft_strdup(value);
+            // free(temp->value); // seg
+            temp->value = ft_strdup(value); // leak
             if(!temp->value)
                 return (EXIT_FAILURE);
             return (EXIT_SUCCESS);
@@ -34,8 +34,6 @@ int update_env(struct t_env_export *env, char *key, char *value)
         return (MALLOC_ERR);
     temp->key = key;//ft_strdup(key);
     temp->value = value;//ft_strdup(value);
-    // if(!temp->key || !temp->value)
-    //     return (EXIT_FAILURE);
     free(temp);
     return (EXIT_SUCCESS);
 }
@@ -45,6 +43,8 @@ char *get_value_from_env(struct t_env_export *env, char *key)
     struct t_env_export *temp;
 
     temp = env;
+    if(!ft_strcmp(key, "?"))
+        return(ft_itoa(get_g_exit_status()));
     while(temp)
     {
         if(ft_strcmp(temp->key, key) == 0)
@@ -102,7 +102,7 @@ char *find_value(char *key_value)
     return (value);
 }
 
-struct t_env_export *init_env(char **env)
+struct t_env_export *init_env(char **env) 
 {
     int i = 0;
     struct t_env_export *head = NULL;
@@ -116,14 +116,13 @@ struct t_env_export *init_env(char **env)
         new_node->key = find_key(env[i]);
         new_node->value = find_value(env[i]);
         new_node->next = NULL;
-        if (head == NULL)
+        if (head == NULL) 
             head = new_node;
-        else
+        else 
             current->next = new_node;
         current = new_node;
         i++;
     }
-    printf("aadsdasd\n\n");
     return head;
 }
 
@@ -161,3 +160,4 @@ int env(t_data *data)
     print_list(data->env);
     return(EXIT_SUCCESS);
 }
+

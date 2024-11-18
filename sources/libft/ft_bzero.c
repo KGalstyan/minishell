@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 15:52:38 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 20:33:22 by vkostand         ###   ########.fr       */
+/*   Created: 2024/01/23 16:50:55 by vkostand          #+#    #+#             */
+/*   Updated: 2024/01/23 17:44:31 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+void	ft_bzero(void *str, size_t n)
 {
-	int	i;
-
-	i = 0;
-
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	if (n == 0)
+		return ;
+	str = ft_memset(str, 0, n);
 }

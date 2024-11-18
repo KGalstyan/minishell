@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/11 18:42:44 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/17 18:25:55 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,74 +45,6 @@ t_token *ft_lst_delone(t_token **lst, t_token *that_one)
     if (ptr == that_one)
         ft_remove_list(prev, ptr);
     return(prev->next);
-}
-
-t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type)
-{
-    t_token *new;
-    t_token *ptr;
-    t_token *tmp;
-    char *new_origcont;
-    char *temp_origcont;
-    t_token *to_free;
-
-    if (!first || !lst || !*lst || !last)
-      return (NULL);
-    if(first == last)
-        return (first);
-    new = malloc(sizeof(t_token));
-    if (!new)
-        return (NULL);
-    new->quotes = first->quotes;
-    ptr = first;
-    tmp = last->next;
-    new_origcont = ft_strdup("");
-    if (!new_origcont)
-    {
-        free(new);
-        return NULL;
-    }
-    while (ptr && ptr != tmp)
-    {
-        if (!ptr->original_content)
-        {
-            free(new_origcont);
-            free(new);
-            return NULL;
-        }
-        temp_origcont = ft_strjoin(new_origcont, ptr->original_content);
-        if (!temp_origcont)
-        {
-            free(new_origcont);
-            free(new);
-            return NULL;
-        }
-        free(new_origcont);
-        new_origcont = temp_origcont;
-        ptr = ptr->next;
-    }
-    new->original_content = new_origcont;
-    new->type = type;
-    new->next = tmp;
-    if (first == *lst)
-        *lst = new;
-    else
-    {
-        ptr = *lst;
-        while (ptr && ptr->next != first)
-            ptr = ptr->next;
-        if (ptr)
-            ptr->next = new;
-    }
-    ptr = first;
-    while (ptr && ptr != tmp)
-    {
-        to_free = ptr;
-        ptr = ptr->next;
-        free(to_free->original_content);
-        free(to_free);
-    }
-    return tmp;
 }
 
 static int check_new_list(t_token *new1, t_token *new2, t_token *selected, t_div *div)
