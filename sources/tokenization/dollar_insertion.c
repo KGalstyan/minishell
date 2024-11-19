@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_insertion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:26:31 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 17:39:22 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:20:32 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,5 @@ int	dollar_insertion(t_data *data)
 	}
 	dollar_parsing(data);
 	change_env_to_word(data, new_content);
-	return (1);
+	return (EXIT_SUCCESS);
 }

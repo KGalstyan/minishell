@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 21:58:09 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:53:49 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,20 @@ int	pipe_insertion(t_data *data)
 	if (data->current && data->current->type == PIPE)
 	{
 		parse_error("|");
-		return (set_g_exit_status(258), EXIT_FAILURE);
+		return (set_g_exit_status(2) , EXIT_FAILURE);//258
 	}
 	while (data->current)
 	{
 		if (data->current->type == PIPE && (!data->current->next))
 		{
 			parse_error("|");
-			return (set_g_exit_status(258), EXIT_FAILURE);
+			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		if (data->current->type == PIPE && data->current->next
-			&& data->current->next->type == PIPE)
+			&& (data->current->next->type == PIPE || data->current->next->type == REDIR || data->current->next->type == HEREDOC))
 		{
-			parse_error("||");
-			return (set_g_exit_status(258), EXIT_FAILURE);
+			parse_error("|");
+			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		data->current = data->current->next;
 	}

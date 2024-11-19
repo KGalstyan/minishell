@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 21:59:01 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:54:06 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,16 +217,16 @@ int check_redir(t_data *data, t_token	*first, t_token	*last)
 			return(1);
 		}
 	}
-	else if (data->current->quotes == 0 && (data->current->original_content[0] == '>' || data->current->original_content[0] == '<'))
-	{
-		data->current->type = REDIR;
-		if (!data->current->next)
-		{
-			parse_error("newline");
-			return(set_g_exit_status(258), 2);
-		}
-		return(0);
-	}
+	// else if (data->current->quotes == 0 && (data->current->original_content[0] == '>' || data->current->original_content[0] == '<'))
+	// {
+	// 	data->current->type = REDIR;
+	// 	if (!data->current->next)
+	// 	{
+	// 		parse_error(data->current->original_content);
+	// 		return(set_g_exit_status(258), 2);
+	// 	}
+	// 	return(0);
+	// }
 	return(0);
 }
 
@@ -238,6 +238,15 @@ int	redir_insertion(t_data *data)
 
 	last = NULL;
 	data->current = data->tokens;
+	if (data->current && data->current->quotes == 0 && (data->current->original_content[0] == '>' || data->current->original_content[0] == '<'))
+	{
+		data->current->type = REDIR;
+		if (!data->current->next)
+		{
+			parse_error(data->current->original_content);
+			return (set_g_exit_status(2) , EXIT_FAILURE); //258
+		}
+	}
 	while (data->current)
 	{
 		first = data->current;
@@ -368,7 +377,7 @@ int	tokens_insertion(t_data *data)
 	remove_brakets(data);
 	if(single_string_insertion(data) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
-	if(!dollar_insertion(data))
+	if(dollar_insertion(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	if(double_string_insertion(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
@@ -376,9 +385,9 @@ int	tokens_insertion(t_data *data)
 		return (EXIT_FAILURE);
 	if(space_insertion(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	if(pipe_insertion(data) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
 	if(heredoc_insertion(data) != EXIT_SUCCESS)
+		return (EXIT_FAILURE);
+	if(pipe_insertion(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	return(EXIT_SUCCESS);
 }
