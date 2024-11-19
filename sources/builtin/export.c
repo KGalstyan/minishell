@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:32:07 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 20:13:37 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:23:59 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void print_export(struct t_env_export *export)
     struct t_env_export *temp;
 
     temp = export;
-    // temp = merge(temp, ft_strcmp);
+    temp = merge(temp, ft_strcmp);
     while(temp)
     {
         if(temp->key)
@@ -111,30 +111,60 @@ struct t_env_export *set_variable(struct t_env_export *export, char *var)
     return (new);
 }
 
-struct t_env_export *export(struct t_env_export *export, char **args)
+// struct t_env_export *export(struct t_env_export *export, char **args)
+// {
+//     int i;
+    
+//     if(!export || !args)
+//         return(NULL);
+//     if(args[0] && !args[1])
+//         return (print_export(export), export);
+//     i = 1;
+//     while(args[i])
+//     {
+//         if(check_variable_name(args[i]) == EXIT_SUCCESS)
+//         {
+//             export = set_variable(export, args[i]);
+//             if(!export)
+//                 return (NULL);
+//             // if(set_variable(export, args[i]) != EXIT_SUCCESS)
+//             //     return (EXIT_FAILURE);
+//         }
+//         else
+//             minishell_error("export", args[i], "not a valid identifier");
+//         i++;
+//     }
+//     return (export);
+// }
+
+int export(t_data *data, char **args)
 {
     int i;
-    
-    if(!export || !args)
-        return(NULL);
+    int status;
+
+    status = 0;    
+    if(!data->export || !args)
+        return(EXIT_FAILURE);
     if(args[0] && !args[1])
-        return (print_export(export), export);
+        return (print_export(data->export), EXIT_SUCCESS);
     i = 1;
     while(args[i])
     {
         if(check_variable_name(args[i]) == EXIT_SUCCESS)
         {
-            export = set_variable(export, args[i]);
-            if(!export)
-                return (NULL);
-            // if(set_variable(export, args[i]) != EXIT_SUCCESS)
-            //     return (EXIT_FAILURE);
+            data->export = set_variable(data->export, args[i]);
+            data->env = set_variable(data->env, args[i]);
+            if(!data->export || !data->export)
+                return (EXIT_FAILURE);
         }
         else
+        {
+            status = 1;
             minishell_error("export", args[i], "not a valid identifier");
+        }
         i++;
     }
-    return (export);
+    return (status);
 }
 
 // int export(struct t_env_export *export, char **args)

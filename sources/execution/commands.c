@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/17 00:13:18 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:07:08 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void	fill_commands(t_data *data)
 	t_token	*tmp;
 
 	len = 0;
-	if (data->current->type == WORD)
+	if (data->current->type == WORD || data->current->type == SPACEO)
 		data->curr_cmd->name = ft_strdup(data->current->original_content);
 	tmp = data->current;
 	while (tmp && tmp->type == WORD)
@@ -364,7 +364,7 @@ int	create_commands(t_data *data)
 		ft_lstadd_back_cmd(&data->commands, tmp);
 		i++;
 	}
-	if (get_g_exit_status(handle_redir(data)))
+	if(handle_redir(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	i = 0;
 	data->curr_cmd = data->commands;
@@ -386,16 +386,16 @@ int	create_commands(t_data *data)
 			data->current = data->current->next;
 			j++;
 		}
-		data->curr_cmd->args[j] = NULL;
+		// data->curr_cmd->args[j] = NULL;
 		if (data->current)
 			data->current = data->current->next;
-		if (data->curr_cmd)
+		if (data->curr_cmd->next)
 			data->curr_cmd = data->curr_cmd->next;
 		else
 			data->curr_cmd->next = NULL;
 		i++;
 	}
-	if (!data->curr_cmd)
-		data->curr_cmd = NULL;
+	// if (!data->curr_cmd)
+	// 	data->curr_cmd = NULL;
 	return (0);
 }

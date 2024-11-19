@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/18 17:31:52 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:16:49 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,20 @@ int fill_tokens(t_data *data, int i, int j, int quotes)
         return(0);
     token1 = ft_lstnew(quotes);
     if(!token1)
-        return(0);
+	{
+		set_g_exit_status(MALLOC_ERR);
+        return(EXIT_FAILURE);
+	}
     token1->original_content = ft_strndup(data->input, i, j);
     token1->type = data->type;
     if (!token1->original_content)
     {
         free(token1);
-        return(0);
+        set_g_exit_status(MALLOC_ERR);
+        return(EXIT_FAILURE);
     }
     ft_lstadd_back(&data->tokens, token1);
-    return(1);
+    return(EXIT_SUCCESS);
 }
 
 int check_pipe_red_env(t_data *data)

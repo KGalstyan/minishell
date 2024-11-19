@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:23:21 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 20:28:35 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:50:00 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	cd_path(t_data *data, char *path)
 	if (chdir(path) != 0)
 	{
 		minishell_error2("cd", path, "No such file or directory");
-		printf("stexem %d\n", EXIT_FAILURE);
 		return (free(cwd), EXIT_FAILURE);
 	}
 	free(cwd);

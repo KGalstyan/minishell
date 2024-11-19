@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:04:04 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/18 17:36:57 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:21:47 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ static int allot_single_quotes_value(t_data *data)
     }
     return(1);
 }
-void allot_quotes_value(t_data *data)
+int allot_quotes_value(t_data *data)
 {
     int i;
 
     i = 0;
     data->current = data->tokens;
     if(check_quotes_close(data))
-		return (set_g_exit_status(EXIT_FAILURE));
+		return (set_g_exit_status(EXIT_FAILURE), EXIT_FAILURE);
     while(data->current)
     {
         if(data->current->original_content[i] == '"')
@@ -112,4 +112,5 @@ void allot_quotes_value(t_data *data)
         }
     }
     data->current = NULL;
+	return(EXIT_SUCCESS);
 }

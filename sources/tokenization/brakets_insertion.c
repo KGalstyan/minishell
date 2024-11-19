@@ -6,26 +6,32 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:59:12 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/18 17:50:10 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:41:28 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void connect_content(t_data *data, t_ptr *ptr, enum s_quotes quotes_num)
+int connect_content(t_data *data, t_ptr *ptr, enum s_quotes quotes_num)
 {
 	while (data->current && (data->current->quotes == quotes_num))
 	{
 		if (data->current->quotes != quotes_num && ptr->first != ptr->last)
 		{
 			data->current = connect_lst_in_one(&data->tokens, ptr->first, ptr->last, WORD);
+			if(!data->current)
+			{
+				set_g_exit_status(MALLOC_ERR);
+				return(EXIT_FAILURE);
+			}
 			continue ;
 		}
 		ptr->last = data->current;
 		data->current = data->current->next;
 	}
+	return(EXIT_SUCCESS);
 }
-void	single_string_insertion(t_data *data)
+int	single_string_insertion(t_data *data)
 {
 	t_ptr ptr;
 
@@ -36,18 +42,25 @@ void	single_string_insertion(t_data *data)
 		{
 			ptr.first = data->current;
 			ptr.last = data->current;
-			connect_content(data, &ptr, SINGLE);
+			if(connect_content(data, &ptr, SINGLE) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			data->current = connect_lst_in_one(&data->tokens, ptr.first, ptr.last,
 					WORD);
+			if(!data->current)
+			{
+				set_g_exit_status(MALLOC_ERR);
+				return(EXIT_FAILURE);
+			}
 		}
 		if (data->current && data->current->next)
 			data->current = data->current->next;
 		else
-			return ;
+			return(EXIT_SUCCESS);
 	}
+	return(EXIT_SUCCESS);
 }
 
-void	double_string_insertion(t_data *data)
+int	double_string_insertion(t_data *data)
 {
 	t_ptr ptr;
 
@@ -58,15 +71,22 @@ void	double_string_insertion(t_data *data)
 		{
 			ptr.first = data->current;
 			ptr.last = data->current;
-			connect_content(data, &ptr, DOUBLE);
+			if(connect_content(data, &ptr, DOUBLE) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			data->current = connect_lst_in_one(&data->tokens, ptr.first, ptr.last,
 					WORD);
+			if(!data->current)
+			{
+				set_g_exit_status(MALLOC_ERR);
+				return(EXIT_FAILURE);
+			}
 		}
 		if (data->current && data->current->next)
 			data->current = data->current->next;
 		else
-			return ;
+			return(EXIT_SUCCESS);
 	}
+	return(EXIT_SUCCESS);
 }
 
 void	remove_brakets(t_data *data)

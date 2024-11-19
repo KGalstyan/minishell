@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_insertion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:26:31 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/18 17:31:33 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:39:22 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void check_and_sort_env_token(t_data *data, char *new_cont)
 		free(data->current->original_content);
 		data->current->original_content = new_cont;
 	}
-	if (data->current && data->current->original_content[0] != '$')
+	if (data->current && data->current->original_content[0] != '$' && data->current->type == WORD)
 		data->current->type = ENV;
 }
 

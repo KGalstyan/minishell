@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 19:45:56 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:46:23 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HELPERS_H
 # define HELPERS_H
 
-# define MALLOC_ERR 3
+# define MALLOC_ERR 1
 # define CWD_ERR 4
 
 char				**ft_arrdup(char **env);

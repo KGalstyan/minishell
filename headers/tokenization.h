@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/18 17:41:17 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:52:05 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_ptr
 	t_token	*last;
 }          t_ptr;
 
-void tokenization(t_data *data);
+int tokenization(t_data *data);
 void free_tokens(t_data *data);
 // ///////////////////////  libft functions ////////////////
 // t_token	*ft_lstnew(int quotes);
@@ -94,16 +94,15 @@ int check_space(t_data *data);
 void free_data(t_data *data);
 void make_new_cont(t_data *data, t_div	*div, char	*new_cont);
 
-void allot_quotes_value(t_data *data);
-void tokens_insertion(t_data *data);
+int allot_quotes_value(t_data *data);
+int	tokens_insertion(t_data *data);
 int	dollar_insertion(t_data *data);
-void	space_insertion(t_data *data);
+int	space_insertion(t_data *data);
 int	pipe_insertion(t_data *data);
 int	heredoc_insertion(t_data *data);
-void	single_string_insertion(t_data *data);
-void	double_string_insertion(t_data *data);
+int	single_string_insertion(t_data *data);
+int	double_string_insertion(t_data *data);
 void	remove_brakets(t_data *data);
-
 // void ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type);

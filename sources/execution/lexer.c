@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:41:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 20:15:18 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:10:14 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,30 @@ char **tokens_to_matrix(t_data *data)
     return (matrix);
 }
 
+
+void run_builtin(t_data *data, char **args) // (t_data *data)
+{
+    if(!args || !*args)
+        return ;
+    if(args[0] && ft_strcmp(args[0], "echo") == 0)
+        set_g_exit_status(echo(args));
+    if(args[0] && ft_strcmp(args[0], "env") == 0)
+        set_g_exit_status(env(data));
+    if(args[0] && ft_strcmp(args[0], "pwd") == 0)
+        set_g_exit_status(pwd(data));
+    if(args[0] && ft_strcmp(args[0], "unset") == 0)
+        set_g_exit_status(unset(data, args));
+    if(args[0] && ft_strcmp(args[0], "cd") == 0)
+        set_g_exit_status(cd(data, args));
+    if(args[0] && ft_strcmp(args[0], "export") == 0)
+    {
+        // data->export = export(data, args);
+        set_g_exit_status(export(data, args));
+    }
+    if(args[0] && ft_strcmp(args[0], "exit") == 0)
+        builtin_exit(data);
+}
+
 // t_cmd token_to_command(t_data *data)
 // {
 //     t_cmd cmd;
@@ -150,29 +174,6 @@ char **tokens_to_matrix(t_data *data)
 //     return (status);
 //     // status = create_commands(data);
 // }
-
-void run_builtin(t_data *data, char **args) // (t_data *data)
-{
-    if(!args || !*args)
-        return ;
-    if(args[0] && ft_strcmp(args[0], "echo") == 0)
-        set_g_exit_status(echo(args));
-    if(args[0] && ft_strcmp(args[0], "env") == 0)
-        set_g_exit_status(env(data));
-    if(args[0] && ft_strcmp(args[0], "pwd") == 0)
-        set_g_exit_status(pwd(data));
-    if(args[0] && ft_strcmp(args[0], "unset") == 0)
-        set_g_exit_status(unset(data, args));
-    if(args[0] && ft_strcmp(args[0], "cd") == 0)
-        set_g_exit_status(cd(data, args));
-    if(args[0] && ft_strcmp(args[0], "export") == 0)
-    {
-        data->export = export(data->export, args);
-        // set_g_exit_status(export(data->export, args));
-    }
-    if(args[0] && ft_strcmp(args[0], "exit") == 0)
-        builtin_exit(data);
-}
 
 // int run_cmd(t_data *data, char **args)
 // {

@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:54:08 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/18 15:12:54 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:39:04 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
     if (!first || !lst || !*lst || !last)
       return (NULL);
     if(first == last)
+    {
+        first->type = type;
         return (first);
+    }
     new_tok.new = malloc(sizeof(t_token));
     if (!new_tok.new)
         return (NULL);
@@ -83,5 +86,5 @@ t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int ty
 	if(check_new_token(&new_tok))
 		return(NULL);
 	create_new_token(&new_tok, lst, first, type);
-	return(new_tok.tmp);
+	return(new_tok.new);
 }
