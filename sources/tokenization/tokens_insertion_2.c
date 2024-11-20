@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 22:53:49 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:18:24 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ int	space_insertion(t_data *data)
 		else
 			data->current = data->current->next;
 	}
+	data->current = data->tokens;
+	while (data->current)
+	{
+		if(data->current && data->current->type == REDIR && data->current->next && data->current->next->type == REDIR)
+		{
+			parse_error(data->current->next->original_content); // ||
+			return (set_g_exit_status(2) , EXIT_FAILURE);//258
+		}
+		data->current = data->current->next;
+	}
 	return(EXIT_SUCCESS);
 }
 
@@ -77,7 +87,7 @@ int	pipe_insertion(t_data *data)
 	data->current = data->tokens;
 	if (data->current && data->current->type == PIPE)
 	{
-		parse_error("|");
+		parse_error("|"); // ||
 		return (set_g_exit_status(2) , EXIT_FAILURE);//258
 	}
 	while (data->current)
@@ -88,9 +98,9 @@ int	pipe_insertion(t_data *data)
 			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		if (data->current->type == PIPE && data->current->next
-			&& (data->current->next->type == PIPE || data->current->next->type == REDIR || data->current->next->type == HEREDOC))
+			&& (data->current->next->type == HEREDOC))
 		{
-			parse_error("|");
+			parse_error("newline");
 			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		data->current = data->current->next;
@@ -118,6 +128,16 @@ int	heredoc_insertion(t_data *data)
 						HEREDOC);
 				if (!data->current)
 					return (set_g_exit_status(MALLOC_ERR), EXIT_FAILURE);
+				if(!data->current->next)
+				{
+					parse_error("newline");
+					return(set_g_exit_status(2), EXIT_FAILURE); //258
+				}
+				else if(data->current->next->type == PIPE)
+				{
+					parse_error("|");
+					return(set_g_exit_status(2), EXIT_FAILURE); //258
+				}
 				continue ;
 			}
 		}

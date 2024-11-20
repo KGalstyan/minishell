@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 22:07:08 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:53:43 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	count_commands(t_data *data)
 
 	num = 1;
 	data->current = data->tokens;
+	if(!data->current)
+		return (0);
 	if (data->current && data->current->type == PIPE)
 		data->current = data->current->next;
 	while (data->current)
@@ -343,34 +345,63 @@ void	fill_commands(t_data *data)
 // 	return(0);
 // }
 
-int	create_commands(t_data *data)
-{
-	int			i;
-	int			j;
-	t_command	*tmp;
+// int	create_commands(t_data *data)
+// {
+// 	int			i;
+// 	int			j;
+// 	t_command	*tmp;
 
-	// int cmd_count;
-	data->pipe_count = count_commands(data) - 1;
-	// cmd_count = count_commands(data);
-	// printf("========= %d \n", cmd_count);
-	i = 0;
-	j = 0;
-	data->commands = ft_lstnew_cmd();
-	while (i < data->pipe_count)
-	{
-		tmp = ft_lstnew_cmd();
-		if (!tmp)
-			return (MALLOC_ERR);
-		ft_lstadd_back_cmd(&data->commands, tmp);
-		i++;
-	}
-	if(handle_redir(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	i = 0;
-	data->curr_cmd = data->commands;
-	data->current = data->tokens;
-	if (!data->current)
-		return (0);
+// 	data->pipe_count = count_commands(data) - 1;
+// 	i = 0;
+// 	j = 0;
+// 	data->commands = ft_lstnew_cmd();
+// 	while (i < data->pipe_count)
+// 	{
+// 		tmp = ft_lstnew_cmd();
+// 		if (!tmp)
+// 			return (MALLOC_ERR);
+// 		ft_lstadd_back_cmd(&data->commands, tmp);
+// 		i++;
+// 	}
+// 	set_g_exit_status(handle_redir(data));
+// 	if (get_g_exit_status())
+// 		return (EXIT_FAILURE);
+// 	i = 0;
+// 	data->curr_cmd = data->commands;
+// 	data->current = data->tokens;
+// 	if (!data->current)
+// 		return (0);
+// 	while (data->current && i < data->pipe_count + 1)
+// 	{
+// 		if (data->current->type == PIPE)
+// 		{
+// 			data->current = data->current->next;
+// 			continue ;
+// 		}
+// 		fill_commands(data);
+// 		j = 0;
+// 		while (data->current && data->current->type == WORD)
+// 		{
+// 			data->curr_cmd->args[j] = ft_strdup(data->current->original_content);
+// 			data->current = data->current->next;
+// 			j++;
+// 		}
+// 		// data->curr_cmd->args[j] = NULL;
+// 		if (data->current)
+// 			data->current = data->current->next;
+// 		if (data->curr_cmd->next)
+// 			data->curr_cmd = data->curr_cmd->next;
+// 		else
+// 			data->curr_cmd->next = NULL;
+// 		i++;
+// 	}
+// 	// if (!data->curr_cmd)
+// 	// 	data->curr_cmd = NULL;
+// 	return (0);
+// }
+
+int create_commands_helper(t_data *data, int i, int j)
+{
 	while (data->current && i < data->pipe_count + 1)
 	{
 		if (data->current->type == PIPE)
@@ -386,7 +417,6 @@ int	create_commands(t_data *data)
 			data->current = data->current->next;
 			j++;
 		}
-		// data->curr_cmd->args[j] = NULL;
 		if (data->current)
 			data->current = data->current->next;
 		if (data->curr_cmd->next)
@@ -395,7 +425,36 @@ int	create_commands(t_data *data)
 			data->curr_cmd->next = NULL;
 		i++;
 	}
-	// if (!data->curr_cmd)
-	// 	data->curr_cmd = NULL;
-	return (0);
+	return (EXIT_SUCCESS);
+}
+
+int	create_commands(t_data *data)
+{
+	int			i;
+	int			j;
+	t_command	*tmp;
+
+	data->pipe_count = count_commands(data) - 1;
+	if(data->pipe_count < 0)
+		return (EXIT_SUCCESS); // erevi senc
+	data->commands = ft_lstnew_cmd();
+	i = 0;
+	while (i < data->pipe_count)
+	{
+		tmp = ft_lstnew_cmd();
+		if (!tmp)
+			return (MALLOC_ERR);
+		ft_lstadd_back_cmd(&data->commands, tmp);
+		i++;
+	}
+	if(handle_redir(data) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	// set_g_exit_status(handle_redir(data));
+	data->curr_cmd = data->commands;
+	data->current = data->tokens;
+	if (!data->current)
+		return (EXIT_SUCCESS);
+	i = 0;
+	j = 0;
+	return (create_commands_helper(data, i, j));
 }

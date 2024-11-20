@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 22:54:06 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:36:21 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ int	redir_insertion(t_data *data)
 		data->current->type = REDIR;
 		if (!data->current->next)
 		{
-			parse_error(data->current->original_content);
+			parse_error("newline");
 			return (set_g_exit_status(2) , EXIT_FAILURE); //258
 		}
 	}

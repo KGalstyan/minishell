@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:38:59 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 17:51:55 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:02:48 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int argc, char **argv, char **env)
     //     exit(3);
     init_data(&data, env);
     rl_catch_signals = 0;
+	set_g_exit_status(EXIT_SUCCESS);
     if(start_shell(&data))
         printf("exit\n");
     clean_data(&data);

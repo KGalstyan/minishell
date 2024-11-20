@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 01:16:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/17 03:23:43 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:11:01 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void heredoc_loop(int fd, char *limiter)
 int open_heredoc(char *limiter)
 {
     int fd;
-    
+
     fd = open(HEREDOC_FILE, O_WRONLY | O_TRUNC | O_CREAT | O_APPEND, 0644);
     if(fd < 0)
     {

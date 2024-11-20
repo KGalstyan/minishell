@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:23:21 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/18 12:50:00 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:22:50 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	cd_path(t_data *data, char *path)
 		return (free(cwd), EXIT_FAILURE);
 	if (update_env(data->export, "OLDPWD", cwd) != EXIT_SUCCESS)
 		return (free(cwd), EXIT_FAILURE);
+	printf("2\n");
 	if (chdir(path) != 0)
 	{
 		minishell_error2("cd", path, "No such file or directory");
@@ -103,11 +104,13 @@ int	cd(t_data *data, char **args)
 	status = 1;
 	if (!args || !data->env || !data->export)
 		return (EXIT_FAILURE);
+	// printf("1\n");
 	if (args[0] && !args[1])
 		status = cd_home(data);
 	else if (args[0] && args[1] && ft_strcmp(args[1], "-") == 0)
 		status = cd_oldpwd(data);
 	else if (args[0] && args[1])
 		status = cd_path(data, args[1]);
+	// printf("adsa\n");
 	return (status);
 }

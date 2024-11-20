@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 20:55:32 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:52:52 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void	wait_and_status(pid_t pid, int *_status)
 	set_g_exit_status(WEXITSTATUS(*_status));
 }
 
-
-
 int	run_cmd(t_data *data)
 {
 
 	char	*path;
 	char	**path_args;
-
+	
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == -1)
 	{
@@ -116,7 +114,7 @@ int	run_commands(t_data *data)
 		if(data->commands && data->commands->name && ft_strcmp(data->commands->name, "unset") == 0)
 			return(unset(data, data->commands->args));
 	}
-
+	
 	// run_cmd(data);
 	return (run_cmd(data));
 }

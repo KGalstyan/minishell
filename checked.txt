@@ -1,0 +1,45 @@
+// builtins
+exit
+pwd
+env
+unset
+echo (except $?)
+
+
+✅
+    pipes
+    unset
+    exit
+	syntax
+
+❌
+    export (45/47)
+    {
+    Test   1:  env | grep "_="
+        mini output = (_=../minishell)
+        bash output = (_=/usr/bin/env)
+    Test  38:  export TEST+=100
+        mini exit code = 1
+        bash exit code = 0
+        mini error = ( not a valid identifier)
+        bash error = ()
+    }
+
+❌
+    echo (70/73)
+    {
+    Test  31: ❌ echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+        mini output = (vkostand$USERtext oui oui oui oui vkostand oui vkostand)
+        bash output = (vkostand$USERtext oui oui oui oui vkostand oui vkostand )
+    Test  32: ❌ echo $USER '' $USER $USER '' $USER '' $USER -n $USER
+        mini output = (vkostand vkostand vkostand vkostand vkostand -n vkostand)
+        bash output = (vkostand vkostand vkostand vkostand vkostand -n vkostand)
+    Test  73: ❌ echo "$FDSFDS" "$FDSFDS" "$FDSFDS"
+        mini output = ()
+        bash output = ( )
+    }
+
+❌
+    syntax 		(9/81)	 (35/81)  (78/81)
+    redirects 	(22/75)  (23/75)  (46/75)
+    extras 		(10/15)  (12/15)  (12/15)

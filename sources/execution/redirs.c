@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:18:20 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 22:56:57 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:15:48 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int	open_file_and_remove_token(t_data *data)
 		data->curr_cmd->stdout = open_outfile(data->current->original_content,
 				1);
 		if(data->curr_cmd->stdout == -1)
-			return(EXIT_FAILURE);
-		// data->curr_cmd->stdin = -1;
+			return (EXIT_FAILURE);
 	}
 	else if (data->current->original_content[0] == '>')
 	{
@@ -92,24 +91,21 @@ int	open_file_and_remove_token(t_data *data)
 		data->curr_cmd->stdout = open_outfile(data->current->original_content,
 				0);
 		if(data->curr_cmd->stdout == -1)
-			return(EXIT_FAILURE);
-		// data->curr_cmd->stdin = -1;
+			return (EXIT_FAILURE);
 	}
 	else if (ft_strcmp(data->current->original_content, "<<") == 0)
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
 		data->curr_cmd->stdin = open_heredoc(data->current->original_content);
-		// data->curr_cmd->stdout = -1;
 		if(data->curr_cmd->stdin == -1)
-			return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 	}
 	else
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
 		data->curr_cmd->stdin = open_infile(data->current->original_content);
-		// data->curr_cmd->stdout = -1;
 		if(data->curr_cmd->stdin == -1)
-			return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 	}
 	data->current = ft_lst_delone(&data->tokens, data->current);
 	return (EXIT_SUCCESS);
@@ -123,26 +119,24 @@ int	handle_redir(t_data *data)
 	{
 		if (data->current->type == REDIR && data->current->next
 			&& (data->current->next->type == REDIR
-				|| data->current->type == HEREDOC))
+				|| data->current->next->type == HEREDOC))
 		{
-			parse_error(data->current->original_content);
-			set_g_exit_status(2); //258
+			parse_error("🅿️");
+			set_g_exit_status(2);  //258
 			return (EXIT_FAILURE);
 		}
-		// else if (data->current->type == REDIR && ((!data->current->next)
-		// 		|| data->current->next->type == PIPE))
-		// {
-		// 	parse_error("newline");
-		// 	set_g_exit_status(258);
-		// 	return (EXIT_FAILURE);
-		// }
 		else if (data->current->type == REDIR && ((!data->current->next)
-				|| data->current->next->type != WORD))
+				|| data->current->next->type == PIPE))
 		{
-			parse_error("newline");
-			set_g_exit_status(2); //258
+			parse_error("🅿️");//parse_error("newline");
+			set_g_exit_status(2);  //258
 			return (EXIT_FAILURE);
 		}
+		// else if (data->current && data->current->type == REDIR && !data->current->next)
+		// {
+		// 	parse_error("IN REDIR");//parse_error(data->current->original_content);
+		// 	return (set_g_exit_status(2) , EXIT_FAILURE); //258
+		// }
 		else if ((data->current->type == REDIR
 				|| data->current->type == HEREDOC) && (data->current->next
 				&& data->current->next->type == WORD))

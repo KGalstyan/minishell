@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 19:45:22 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 22:18:38 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:05:09 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,25 @@ int start_shell(t_data *data)
         if(tokenization(data) == EXIT_SUCCESS)
         // if(get_g_exit_status() == EXIT_SUCCESS)
         {
-			if(create_commands(data) == EXIT_SUCCESS)
+			// create_commands(data);
+            if(create_commands(data) == EXIT_SUCCESS)
+            {
+
             // printf("alo -> %d\n", get_g_exit_status());
-			{
-            	data->pid = malloc(sizeof(int) * (data->pipe_count + 1));
+            data->pid = malloc(sizeof(int) * (data->pipe_count + 1));
             // if(!data->pid)
-            	data->index = 0;
-            	data->pipe_index = 0;
-            	create_pipes(data);
-            	execute(data);
+
+            data->index = 0;
+            data->pipe_index = 0;
+            create_pipes(data);
+            execute(data);
+
             // printf("alo -> %d\n", get_g_exit_status());
+
             // set_g_exit_status(execute(data));
-            	close_pipes(data);
-            	remove_heredoc_file(data->env);
-			}
+            close_pipes(data);
+            remove_heredoc_file(data->env);
+            }
             free_commands(data);
         }
         free_tokens(data);
