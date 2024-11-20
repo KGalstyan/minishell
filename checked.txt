@@ -10,7 +10,7 @@ echo (except $?)
     pipes
     unset
     exit
-	syntax
+	syntax🅿️
 
 ❌
     export (45/47)
@@ -40,6 +40,5 @@ echo (except $?)
     }
 
 ❌
-    syntax 		(9/81)	 (35/81)  (78/81)
     redirects 	(22/75)  (23/75)  (46/75)
     extras 		(10/15)  (12/15)  (12/15)

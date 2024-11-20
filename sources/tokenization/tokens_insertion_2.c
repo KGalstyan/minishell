@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/20 20:18:24 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:29:31 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ int	space_insertion(t_data *data)
 	data->current = data->tokens;
 	while (data->current)
 	{
-		if (data->current->type == SPACEO && data->current->quotes == 0)
-			data->current = ft_lst_delone(&data->tokens, data->current);
-		///// poxel yst anhrajeshtutyan /////
-		else
-			data->current = data->current->next;
-	}
-	data->current = data->tokens;
-	while (data->current)
-	{
-		if(data->current && data->current->type == REDIR && data->current->next && data->current->next->type == REDIR)
+		if(data->current && data->current->type == REDIR && data->current->next && data->current->next->type == SPACE && data->current->next->next && data->current->next->next->type == REDIR)
 		{
 			parse_error(data->current->next->original_content); // ||
 			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		data->current = data->current->next;
+	}
+	data->current = data->tokens;
+	while (data->current)
+	{
+		if (data->current->type == SPACEO && data->current->quotes == 0)
+			data->current = ft_lst_delone(&data->tokens, data->current);
+		///// poxel yst anhrajeshtutyan /////
+		else
+			data->current = data->current->next;
 	}
 	return(EXIT_SUCCESS);
 }

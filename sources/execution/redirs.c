@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:18:20 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/20 20:15:48 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:27:21 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,14 @@ int	handle_redir(t_data *data)
 			&& (data->current->next->type == REDIR
 				|| data->current->next->type == HEREDOC))
 		{
-			parse_error("🅿️");
+			parse_error(data->current->next->original_content);
 			set_g_exit_status(2);  //258
 			return (EXIT_FAILURE);
 		}
-		else if (data->current->type == REDIR && ((!data->current->next)
+		if (data->current->type == REDIR && ((!data->current->next)
 				|| data->current->next->type == PIPE))
 		{
-			parse_error("🅿️");//parse_error("newline");
+			parse_error("newline");
 			set_g_exit_status(2);  //258
 			return (EXIT_FAILURE);
 		}
