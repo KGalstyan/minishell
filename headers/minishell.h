@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/17 03:03:43 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:12:37 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/ioctl.h>
 
 #define in 0
 #define out 1
@@ -48,7 +49,7 @@ struct s_data
     int     pipe_index;
     int *pid;
     int index;
-    
+
     // Karen
     int i;
     int j;
@@ -65,7 +66,7 @@ struct t_env_export
 {
     char *key;
     char *value;
-    struct t_env_export *next;  
+    struct t_env_export *next;
 };
 
 

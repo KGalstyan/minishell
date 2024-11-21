@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 19:45:22 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/20 17:05:09 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:57:39 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int start_shell(t_data *data)
 {
     while(1)
     {
+		init_signals(1);
         data->input = readline(BLUE "Verishen: " RESET_COLOR);
         if(!data->input)
             return (EXIT_FAILURE);

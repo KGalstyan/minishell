@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 19:30:31 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:18:16 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,26 @@ void	handle_sigquit(int sig)
 	(void)sig;
 	rl_redisplay();
 }
+void	handle_heredoc_sig(int sig)
+{
+	(void)sig;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	set_g_exit_status(1);
+}
 
-void init_signals(void)
+void init_signals(int type)
 {
 	// terminal_config();
-    signal(SIGQUIT, handle_sigquit);
-    signal(SIGINT, handle_sigint);
+	if(type == 1)
+	{
+    	signal(SIGQUIT, handle_sigquit);
+    	signal(SIGINT, handle_sigint);
+	}
+	else if(type == 2)
+	{
+		signal(SIGQUIT, handle_sigquit);
+    	signal(SIGINT, handle_heredoc_sig);
+	}
 }
