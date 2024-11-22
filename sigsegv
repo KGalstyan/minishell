@@ -1,5 +1,0 @@
-init data -> initialization -> data->export = init_env();
-ctrl+D
-unset _ (before unset first arg) corrected
-
-ls after unset PATH

@@ -7,10 +7,10 @@ echo (except $?)
 
 
 ✅
-    pipes
+    pipes 
     unset
     exit
-	syntax🅿️
+    syntax
 
 ❌
     export (45/47)
@@ -40,5 +40,7 @@ echo (except $?)
     }
 
 ❌
-    redirects 	(22/75)  (23/75)  (48/75)
-    extras 		(10/15)  (12/15)  (12/15)
+    redirects (43/75)
+    extras (12/15)
+
+Overall (323/358)

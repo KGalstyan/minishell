@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:07:05 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 20:16:06 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:47:13 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void print_list(struct t_env_export *env)
 {
 	struct t_env_export *temp;
-	
+
 	temp = env;
 	if(!temp)
 		return ;
@@ -36,7 +36,7 @@ void print_list(struct t_env_export *env)
 void print_array(char **str)
 {
 	int i;
-	
+
 	i = 0;
     while (str[i])
     {
@@ -120,6 +120,6 @@ int count_array_len(char **str)
 		return (i);
 	while(str[i])
 		i++;
-	
+
 	return (i);
 }

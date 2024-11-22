@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:26:31 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 22:20:32 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:41:22 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void change_env_to_word(t_data *data, char	*new_content)
 	{
 		if (data->current->type == ENV)
 		{
-			new_content = ft_strdup(get_value_from_env(data->env, data->current->original_content));
+			if(!ft_strcmp(data->current->original_content, "?"))
+				new_content = get_value_from_env(data->env, data->current->original_content);
+			else
+				new_content = ft_strdup(get_value_from_env(data->env, data->current->original_content));
 			free(data->current->original_content);
 			data->current->original_content = new_content;
 			if (!data->current->original_content)

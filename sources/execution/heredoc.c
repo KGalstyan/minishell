@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 01:16:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 19:17:23 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:04:55 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	remove_heredoc_file(struct t_env_export *env)
 		kill(pid, 0);
 	}
 }
+// void handle_heredoc_sig(int sig)
+// {
+//     (void)sig;
+//     set_g_exit_status(EXIT_FAILURE);
+//     rl_redisplay();
+// }
 
 int heredoc_loop(int fd, char *limiter)
 {
@@ -40,13 +46,13 @@ int heredoc_loop(int fd, char *limiter)
     {
 		init_signals(2);
         cur = readline("> ");
-        if(!cur || ft_strcmp(cur, limiter) == 0 || get_g_exit_status() == EXIT_FAILURE)
+        if(!cur || ft_strcmp(cur, limiter) == 0)
         {
             free(cur);
             cur = NULL;
 			close(fd);
-			return(-1);
         }
+		// else if(get_g_exit_status() == EXIT_FAILURE)
         write(fd, cur, ft_strlen(cur));
         write(fd, "\n", 1);
         free(cur);
@@ -55,6 +61,26 @@ int heredoc_loop(int fd, char *limiter)
     close(fd);
 	return (0);
 }
+// void heredoc_loop(int fd, char *limiter)
+// {
+//     char *cur;
+
+//     while(1)
+//     {
+//         cur = readline("> ");
+//         if(!cur || ft_strcmp(cur, limiter) == 0)
+//         {
+//             free(cur);
+//             cur = NULL;
+//             break;
+//         }
+//         write(fd, cur, ft_strlen(cur));
+//         write(fd, "\n", 1);
+//         free(cur);
+//         cur = NULL;
+//     }
+//     close(fd);
+// }
 
 int open_heredoc(char *limiter)
 {
@@ -69,8 +95,9 @@ int open_heredoc(char *limiter)
     }
     if (heredoc_loop(fd, limiter) == -1)
 		return (-1);
+	heredoc_loop(fd, limiter);
     close(fd);
-    fd = open(HEREDOC_FILE, O_RDONLY);
+    fd = open(HEREDOC_FILE, O_RDONLY | O_CREAT);
     if(fd < 0)
     {
         minishell_error2(HEREDOC_FILE, "", strerror(errno));

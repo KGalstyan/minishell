@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 22:53:43 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:02:36 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,12 +186,12 @@ void	print_a(t_data *data)
 
 	pr_cmd = data->commands;
 	i = 0;
-	printf("🔵🔵🔵🔵🔵🔵🔵🔵🔵\n");
 	while (pr_cmd)
 	{
 		i = 0;
 		if (pr_cmd->name)
-			printf("	NAME  ->>>>>> %s\n", pr_cmd->name);
+			printf("NAME -> %s\n", pr_cmd->name);
+		printf("🔵🔵🔵🔵🔵🔵🔵🔵🔵\n");
 		if (!pr_cmd->args)
 		{
 			pr_cmd = pr_cmd->next;
@@ -199,9 +199,13 @@ void	print_a(t_data *data)
 		}
 		while (pr_cmd->args[i])
 		{
-			printf("	ARGS ->>>>>> %s\n", pr_cmd->args[i]);
+			printf("ARGS -> %s\n", pr_cmd->args[i]);
 			i++;
 		}
+		if(pr_cmd->stdin)
+			printf("stdin -> %d\n", pr_cmd->stdin);
+		if(pr_cmd->stdout)
+			printf("stdout -> %d\n", pr_cmd->stdout);
 		pr_cmd = pr_cmd->next;
 	}
 }
@@ -425,6 +429,7 @@ int create_commands_helper(t_data *data, int i, int j)
 			data->curr_cmd->next = NULL;
 		i++;
 	}
+	// print_a(data);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:30:53 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/16 20:30:52 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:16:53 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ struct t_env_export *init_env(char **env)
     {
         new_node = malloc(sizeof(struct t_env_export));
         if (!new_node)
-            exit(MALLOC_ERR);
+            return(NULL);
         new_node->key = find_key(env[i]);
         new_node->value = find_value(env[i]);
         new_node->next = NULL;

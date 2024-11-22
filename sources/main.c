@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:38:59 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 16:28:22 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:36:17 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int main(int argc, char **argv, char **env)
     //     exit(3);
     init_data(&data, env);
     rl_catch_signals = 0;
-	set_g_exit_status(EXIT_SUCCESS);
     if(start_shell(&data))
         printf("exit\n");
     clean_data(&data);

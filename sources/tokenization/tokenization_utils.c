@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 21:16:49 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:54:32 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void free_tokens(t_data *data)
         data->current = next;
     }
     data->tokens = NULL;
-    free(data->input);
 }
 
 int fill_tokens(t_data *data, int i, int j, int quotes)

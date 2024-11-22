@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_insertion_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/21 16:30:55 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/20 21:06:54 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,18 @@ int	connect_tokens(t_data *data)
 
 int	space_insertion(t_data *data)
 {
-	if(connect_tokens(data) != EXIT_SUCCESS)
-		return(EXIT_FAILURE);
 	data->current = data->tokens;
-	// print_data(data);
 	while (data->current)
 	{
 		if(data->current && data->current->type == REDIR && data->current->next && data->current->next->type == SPACEO && data->current->next->next && data->current->next->next->type == REDIR)
 		{
-			parse_error(data->current->next->next->original_content); // ||
+			parse_error(data->current->original_content); // ||
 			return (set_g_exit_status(2) , EXIT_FAILURE);//258
 		}
 		data->current = data->current->next;
 	}
+	if(connect_tokens(data) != EXIT_SUCCESS)
+		return(EXIT_FAILURE);
 	data->current = data->tokens;
 	while (data->current)
 	{

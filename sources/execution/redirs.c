@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:18:20 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/20 20:27:21 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:01:38 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int	handle_redir(t_data *data)
 	data->curr_cmd = data->commands;
 	while (data->current)
 	{
+		if(data->current->type == PIPE)
+			data->current = data->current->next;
 		if (data->current->type == REDIR && data->current->next
 			&& (data->current->next->type == REDIR
 				|| data->current->next->type == HEREDOC))
