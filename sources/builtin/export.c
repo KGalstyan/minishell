@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:32:07 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/18 13:23:59 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:45:23 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,49 @@ void print_export(struct t_env_export *export)
     }
 }
 
-struct t_env_export *add_oldpwd(t_data *data)
+struct t_env_export *add_oldpwd(struct t_env_export *env)
 {
     struct t_env_export *oldpwd = NULL;
     struct t_env_export *temp;
     
-    temp = data->export;
+    temp = env;
     while(temp && ft_strcmp(temp->key, "OLDPWD") != 0)
         temp = temp->next;
     if(!temp)
     {
         oldpwd = (struct t_env_export *)malloc(sizeof(struct t_env_export));
         if(!oldpwd)
-            exit_shell(data, MALLOC_ERR);
+            return(NULL);
         oldpwd->key = ft_strdup("OLDPWD");
         oldpwd->value = NULL;
-        oldpwd->next = data->export;
+        oldpwd->next = env;
         return (oldpwd);
     }
     else
-        return (data->export);
+        return (env);
 }
+
+// struct t_env_export *add_oldpwd(t_data *data)
+// {
+//     struct t_env_export *oldpwd = NULL;
+//     struct t_env_export *temp;
+    
+//     temp = data->export;
+//     while(temp && ft_strcmp(temp->key, "OLDPWD") != 0)
+//         temp = temp->next;
+//     if(!temp)
+//     {
+//         oldpwd = (struct t_env_export *)malloc(sizeof(struct t_env_export));
+//         if(!oldpwd)
+//             return(NULL);
+//         oldpwd->key = ft_strdup("OLDPWD");
+//         oldpwd->value = NULL;
+//         oldpwd->next = data->export;
+//         return (oldpwd);
+//     }
+//     else
+//         return (data->export);
+// }
 
 // int add_node(struct t_env_export **export, char *key, char *value)
 // {

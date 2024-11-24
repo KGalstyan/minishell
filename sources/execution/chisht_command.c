@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chisht_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:10:00 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 21:00:21 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:12:44 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 // 		{
 // 			while(pr_cmd->name)
 // 			{
-//     		printf("🔵🔵🔵🔵🔵🔵🔵🔵🔵\n");
+//     		printf("🔵🔵🔵🔵🔵🔵🔵🔵🔵\n");	
 // 				printf("	ARGS ->>>>>> %s\n", pr_cmd->name);
 // 				i++;
 // 			}
@@ -125,34 +125,47 @@
 // 	return (args);
 // }
 
-// void free_one_command(t_data *data)
+void free_one_command(t_data *data)
+{
+	data->curr_cmd = data->commands->next;
+	free(data->commands->name);
+	data->commands->name = NULL;
+	free_array(data->commands->args);
+	free(data->commands);
+	data->commands = NULL;
+	data->commands = data->curr_cmd;
+}
+
+// void free_commands(t_data *data)
 // {
-// 	data->curr_cmd = data->commands->next;
-// 	free(data->commands->name);
-// 	data->commands->name = NULL;
-// 	free_array(data->commands->args);
-// 	free(data->commands);
-// 	data->commands = NULL;
-// 	data->commands = data->curr_cmd;
+// 	t_command *tmp;
+// 	while (data->commands)
+// 	{
+// 		tmp = data->commands->next;
+// 		if(data->commands->name)
+// 		{
+// 			printf("name -> %s\n", data->commands->name);
+// 			free(data->commands->name);
+// 			data->commands->name = NULL;
+// 		}
+// 		if(data->commands->args)
+// 			free_array(data->commands->args);
+// 		data->commands = tmp;
+// 	}
 // }
 
 void free_commands(t_data *data)
 {
-	t_command *tmp;
-	data->curr_cmd = data->commands;
-
+	data->curr_cmd = data->commands;	
 	while (data->curr_cmd)
 	{
-		if(data->curr_cmd->name)
-		{
-			free(data->curr_cmd->name);
-			data->curr_cmd->name = NULL;
-		}
-		if(data->curr_cmd->args)
-			free_array(data->curr_cmd->args);
-		tmp = data->curr_cmd->next;
+		data->commands = data->commands->next;
+		free(data->curr_cmd->name);
+		data->curr_cmd->name = NULL;
+		free_array(data->curr_cmd->args);
 		free(data->curr_cmd);
-		data->curr_cmd = tmp;
+		data->curr_cmd = NULL;
+		data->curr_cmd = data->commands;
 	}
 }
 

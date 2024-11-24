@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:36:18 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/20 18:11:47 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:59:05 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_number(char *str)
 	return (1);
 }
 
-static unsigned long long	ft_atol(char *str)
+static unsigned long long	ft_atol(char *str, t_data *data)
 {
 	unsigned long long	number;
 	int					is_negative;
@@ -54,6 +54,8 @@ static unsigned long long	ft_atol(char *str)
 		{
 			minishell_error2("exit", str, "numeric argument required");
 			set_g_exit_status(255);
+			clean_data(data);
+			// system("leaks minishell");
 			exit(get_g_exit_status());
 		}
 		++i;
@@ -63,12 +65,17 @@ static unsigned long long	ft_atol(char *str)
 	return (number);
 }
 
-void	exit_check(int flag)
+void	exit_check(int flag, t_data *data)
 {
 	if (get_g_exit_status() < 0)
 		set_g_exit_status(get_g_exit_status() + 256);
 	if (!flag)
+	{
+		clean_data(data);
+			// system("leaks minishell");
+
 		exit(get_g_exit_status());
+	}
 }
 
 int	builtin_exit(t_data *data)
@@ -86,6 +93,9 @@ int	builtin_exit(t_data *data)
 			minishell_error2("exit", data->commands->args[1],
 				"numeric argument required");
 			set_g_exit_status(255);
+			clean_data(data);
+			// system("leaks minishell");
+
 			exit(get_g_exit_status());
 		}
 		if (data->commands->args[2])
@@ -94,9 +104,9 @@ int	builtin_exit(t_data *data)
 			return (EXIT_FAILURE);
 			flag = 1;
 		}
-		set_g_exit_status(ft_atol(data->commands->args[1]) % 256);
+		set_g_exit_status(ft_atol(data->commands->args[1], data) % 256);
 	}
-	exit_check(flag);
+	exit_check(flag, data);
 	return (EXIT_SUCCESS);
 }
 

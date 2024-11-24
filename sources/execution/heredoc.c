@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 01:16:50 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 22:04:55 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:01:03 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,16 @@ int heredoc_loop(int fd, char *limiter)
         {
             free(cur);
             cur = NULL;
-			close(fd);
+            break ;
+			// close(fd);
+			// return(-1);
         }
-		// else if(get_g_exit_status() == EXIT_FAILURE)
+        if(get_g_exit_status() == 247)
+        {
+            set_g_exit_status(1);
+            // close(fd);
+            return(-1);
+        }
         write(fd, cur, ft_strlen(cur));
         write(fd, "\n", 1);
         free(cur);
@@ -61,31 +68,11 @@ int heredoc_loop(int fd, char *limiter)
     close(fd);
 	return (0);
 }
-// void heredoc_loop(int fd, char *limiter)
-// {
-//     char *cur;
-
-//     while(1)
-//     {
-//         cur = readline("> ");
-//         if(!cur || ft_strcmp(cur, limiter) == 0)
-//         {
-//             free(cur);
-//             cur = NULL;
-//             break;
-//         }
-//         write(fd, cur, ft_strlen(cur));
-//         write(fd, "\n", 1);
-//         free(cur);
-//         cur = NULL;
-//     }
-//     close(fd);
-// }
 
 int open_heredoc(char *limiter)
 {
     int fd;
-
+    
     fd = open(HEREDOC_FILE, O_WRONLY | O_TRUNC | O_CREAT | O_APPEND, 0644);
     if(fd < 0)
     {
@@ -95,9 +82,8 @@ int open_heredoc(char *limiter)
     }
     if (heredoc_loop(fd, limiter) == -1)
 		return (-1);
-	heredoc_loop(fd, limiter);
     close(fd);
-    fd = open(HEREDOC_FILE, O_RDONLY | O_CREAT);
+    fd = open(HEREDOC_FILE, O_RDONLY);
     if(fd < 0)
     {
         minishell_error2(HEREDOC_FILE, "", strerror(errno));

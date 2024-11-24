@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 20:54:32 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:06:17 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int check_space(t_data *data)
 {
     while(data->input[data->i] && data->input[data->i] == ' ')
         data->i++;
-    if(data->input[data->j] == ' ')// && data->quotes_flag != 0)
+    if(data->input[data->j] == ' ')
     {
         data->type = SPACEO;
         fill_tokens(data, data->i, data->j, data->quotes_flag);

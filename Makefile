@@ -1,7 +1,7 @@
 NAME = minishell
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3 #-lreadline
-CC = cc
+CC = cc 
 
 SRCS = main.c
 
@@ -11,7 +11,7 @@ HEADER =  libft.h \
           minishell.h \
           tokenization.h
 
-VALIDATION =
+VALIDATION = 
 
 HELPERS = merge.c \
            helpers.c \
@@ -19,7 +19,7 @@ HELPERS = merge.c \
            clean_data.c \
            array_utils.c \
            init_export.c \
-           initialization.c
+           initialization.c 
 
 EXECUTION = processes.c \
             lexer.c \
@@ -39,7 +39,7 @@ TOKENIZATION = tokenization.c \
                  brakets_insertion.c \
                tokens_insertion_2.c \
                 dollar_insertion.c \
-                connect_lists.c
+                connect_lists.c 
 
 BUILTIN = cd.c \
          env.c \
@@ -69,10 +69,10 @@ LIBFT = ft_lstadd_back.c \
         ft_putendl_fd.c \
         ft_substr.c \
         ft_memset.c \
-		ft_split.c \
-		ft_strlcpy.c \
+		    ft_split.c \
+		    ft_strlcpy.c \
         ft_strncat.c \
-        ft_bzero.c
+        ft_bzero.c 
 
 OBJ_DIR = ./objects/
 SRCS_DIR = ./sources/
@@ -88,7 +88,7 @@ $(shell mkdir -p $(OBJ_DIR))
 
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 LIBFT := $(addprefix $(LIBFT_DIR), $(LIBFT))
-HEADER := $(addprefix $(HEADER_DIR), $(HEADER))
+HEADER := $(addprefix $(HEADER_DIR), $(HEADER)) 
 BUILTIN := $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 HELPERS := $(addprefix $(HELPERS_DIR), $(HELPERS))
 EXECUTION := $(addprefix $(EXECUTION_DIR), $(EXECUTION))
@@ -104,7 +104,7 @@ SRCS += $(TOKENIZATION)
 
 OBJS = $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
 
-all: ${NAME}
+all: config ${NAME} 
 
 config:
 	mkdir -p readline_local

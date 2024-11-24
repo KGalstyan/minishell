@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:30:53 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 20:16:53 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:43:40 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int update_env(struct t_env_export *env, char *key, char *value)
     {
         if(ft_strcmp(temp->key, key) == 0)
         {
-            // free(temp->value); // seg
+            free(temp->value); // seg
             temp->value = ft_strdup(value); // leak
             if(!temp->value)
                 return (EXIT_FAILURE);
@@ -29,12 +29,24 @@ int update_env(struct t_env_export *env, char *key, char *value)
         }
         temp = temp->next;
     }
-    temp = malloc(sizeof(struct t_env_export));
-    if(!temp)
-        return (MALLOC_ERR);
-    temp->key = key;//ft_strdup(key);
-    temp->value = value;//ft_strdup(value);
-    free(temp);
+    // env = add_oldpwd(data);
+    // temp = env;
+    // while(temp)
+    // {
+    //     if(ft_strcmp("OLDPWD", temp->key) == 0)
+    //     {
+    //         temp->value = ft_strdup(value);
+    //     }
+    //     temp = temp->next;
+    // }
+    // printf("stexem\n");
+    // temp = malloc(sizeof(struct t_env_export));
+    // if(!temp)
+    //     return (MALLOC_ERR);
+    // temp->key = key;//ft_strdup(key);
+    // temp->value = value;//ft_strdup(value);
+    
+    // free(temp);
     return (EXIT_SUCCESS);
 }
 

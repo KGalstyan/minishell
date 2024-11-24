@@ -6,17 +6,28 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 20:36:19 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:21:27 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int check_special_tokens(t_data *data)
+{
+	if(data->input[data->i] == '<' || data->input[data->i] == '>')
+        return(1);
+    else if(data->input[data->i] == '$' || data->input[data->i] == '|')
+        return(1);
+    else if(data->input[data->i] == '"' || data->input[data->i] == '\'')
+        return(1);
+	return(0);
+}
+
 int create_tokens(t_data *data)
 {
     data->i = 0;
     data->j = 0;
-	
+
     while(data->input[data->i])
     {
         data->quotes_flag = NONE;
@@ -29,12 +40,8 @@ int create_tokens(t_data *data)
             continue;
         while(data->input[data->i] && data->input[data->i] != ' ')
         {
-            if(data->input[data->i] == '<' || data->input[data->i] == '>')
-                break;
-            else if(data->input[data->i] == '$' || data->input[data->i] == '|')
-                break;
-            else if(data->input[data->i] == '"' || data->input[data->i] == '\'')
-                break;
+            if(check_special_tokens(data))
+				break ;
             data->i++;
         }
         data->type = WORD;
@@ -44,26 +51,20 @@ int create_tokens(t_data *data)
 	return(EXIT_SUCCESS);
 }
 
-# define RED "\033[1;31m"
-# define GREEN "\033[1;32m"
-# define YELLOW "\033[1;33m"
-# define RESET_COLOR "\033[0m"
-#define BLUE "\033[1;34m"
+// void print_data(t_data *data)
+// {
+//     t_token *pr_token = data->tokens;
+//     while(pr_token != NULL)
+//     {
 
-void print_data(t_data *data)
-{
-    t_token *pr_token = data->tokens;
-    while(pr_token != NULL)
-    {
-
-        printf(RED "token --> " RESET_COLOR);
-        printf(GREEN "[%s]" RESET_COLOR, pr_token->original_content);
-        printf("  (%d) -->", pr_token->quotes);
-        printf(YELLOW " type(%d) --> \n" RESET_COLOR, pr_token->type);
-        pr_token = pr_token->next;
-    }
-    printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
-}
+//         printf(RED "token --> " RESET_COLOR);
+//         printf(GREEN "[%s]" RESET_COLOR, pr_token->original_content);
+//         printf("  (%d) -->", pr_token->quotes);
+//         printf(YELLOW " type(%d) --> \n" RESET_COLOR, pr_token->type);
+//         pr_token = pr_token->next;
+//     }
+//     printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
+// }
 
 int tokenization(t_data *data)
 {
@@ -73,20 +74,6 @@ int tokenization(t_data *data)
 		return(EXIT_FAILURE);
     if(tokens_insertion(data) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
-	// print_data(data);
 	return(EXIT_SUCCESS);
 }
-// void start_shell(t_data *data)
-// {
-//     while(1)
-//     {
-//         data->input = readline(BLUE "Verishen: " RESET_COLOR);
-//         if (data->input)
-//             add_history(data->input);
-//         // print_data(data);
-//         tokenization(data);
-//         printf("✅ CORRECT INPUT\n");
-//         free_tokens(data);
-//         //("leaks minishell");
-//     }
-// }
+

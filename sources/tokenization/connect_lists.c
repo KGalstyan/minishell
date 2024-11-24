@@ -6,11 +6,21 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:54:08 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/19 21:39:04 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:27:04 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void make_new_cont(t_data *data, t_div	*div, char	*new_cont)
+{
+	div->i++;
+	new_cont = ft_substr(data->current->original_content, div->i, ft_strlen(data->current->original_content));
+	free(data->current->original_content);
+	data->current->original_content = new_cont;
+	data->current->type = WORD;
+}
+
 void create_new_token(t_new_token *new_tok, t_token **lst, t_token *first, int type)
 {
     new_tok->new->original_content = new_tok->new_origcont;

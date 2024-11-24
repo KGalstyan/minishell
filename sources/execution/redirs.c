@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:18:20 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 22:01:38 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:37:40 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,29 @@ int	open_outfile(char *name, int append)
 
 void	in_redir(t_data *data)
 {
-	if (data->commands->stdin > 0)
+	if (data->curr_cmd->stdin > 0)
 	{
-		if (dup2(data->commands->stdin, 0) < 0)
+		// printf("data->curr_cmd->stdin -> %d\n", data->curr_cmd->stdin);
+		if (dup2(data->curr_cmd->stdin, 0) < 0)
 		{
 			minishell_error2("dup2 error", "", "");
 			set_g_exit_status(EXIT_FAILURE); // hrcneq chishty verna
 		}
-		close(data->commands->stdin);
+		close(data->curr_cmd->stdin);
 	}
 }
 
 void	out_redir(t_data *data)
 {
-	if (data->commands->stdout > 0)
+	if (data->curr_cmd->stdout > 0)
 	{
-		if (dup2(data->commands->stdout, 1) < 0)
+		// printf("data->curr_cmd->stdout -> %d\n", data->curr_cmd->stdout);
+		if (dup2(data->curr_cmd->stdout, 1) < 0)
 		{
 			minishell_error2("dup2 error", "", "");
 			set_g_exit_status(EXIT_FAILURE); // hrcneq chishty verna
 		}
-		close(data->commands->stdout);
+		close(data->curr_cmd->stdout);
 	}
 }
 
@@ -90,6 +92,7 @@ int	open_file_and_remove_token(t_data *data)
 		data->current = ft_lst_delone(&data->tokens, data->current);
 		data->curr_cmd->stdout = open_outfile(data->current->original_content,
 				0);
+		// printf("%d\n", data->curr_cmd->stdout);
 		if(data->curr_cmd->stdout == -1)
 			return (EXIT_FAILURE);
 	}
@@ -143,7 +146,7 @@ int	handle_redir(t_data *data)
 				|| data->current->type == HEREDOC) && (data->current->next
 				&& data->current->next->type == WORD))
 		{
-			if (open_file_and_remove_token(data))
+			if (open_file_and_remove_token(data) && data->pipe_count < 1)
 				return (EXIT_FAILURE);
 		}
 		else if (data->current)

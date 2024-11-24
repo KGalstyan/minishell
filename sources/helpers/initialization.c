@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:57:05 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 19:57:34 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:46:12 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void init_data(t_data *data, char **env)
     data->export = init_env(env);
     clarify_shlvl(data->env);
     clarify_shlvl(data->export);
-    data->export = add_oldpwd(data);
+    data->export = add_oldpwd(data->export);
+    data->env = add_oldpwd(data->env);
     data->export = merge(data->export, ft_strcmp);
     data->tokens = NULL;
     data->current = NULL;

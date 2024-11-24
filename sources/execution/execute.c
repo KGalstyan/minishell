@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 20:59:31 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:59:09 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	dups(t_data *data)
 	{
 		close_pipes(data);
 		minishell_error("pipe error", "", "");
+		clean_data(data);
+			// system("leaks minishell");
+
 		exit(1);
 	}
 	if (data->pipe_index < data->pipe_count
@@ -28,6 +31,9 @@ void	dups(t_data *data)
 		close_pipes(data);
 		// close(data->fd[0][0]);
 		minishell_error("pipe error", "", "");
+		clean_data(data);
+			// system("leaks minishell");
+
 		exit(1);
 	}
 	close_pipes(data);
@@ -68,21 +74,30 @@ int	is_absolute_path(t_data *data)
 
 void check_and_exec2(t_data *data)
 {
-	if (access(data->commands->name, F_OK) == 0)
+	if (access(data->curr_cmd->name, F_OK) == 0)
 	{
-		if(access(data->commands->name, X_OK) == 0)
+		if(access(data->curr_cmd->name, X_OK) == 0)
 		{
-			execve(data->commands->name, data->commands->args, list_to_array(data->env));
-			minishell_error2(data->commands->name, strerror(errno), "");
-			exit(127);
+			execve(data->curr_cmd->name, data->curr_cmd->args, list_to_array(data->env));	
+			minishell_error2(data->curr_cmd->name, strerror(errno), "");
+			clean_data(data);
+    		// system("leaks minishell");
+
+			exit(127);	
 		}
 		else
 		{
-			minishell_error2(data->commands->name, "", strerror(errno));
+			minishell_error2(data->curr_cmd->name, "", strerror(errno));
+			clean_data(data);
+    		// system("leaks minishell");
+
 			exit (127);
 		}
 	}
-	minishell_error2(data->commands->name, "", strerror(errno));
+	minishell_error2(data->curr_cmd->name, "", strerror(errno));
+	clean_data(data);
+    // system("leaks minishell");
+
 	exit (127);
 }
 
@@ -97,28 +112,40 @@ bool	is_directory(const char	*path)
 
 void check_and_exec(t_data *data)
 {
-	if(is_directory(data->commands->name))
+	if(is_directory(data->curr_cmd->name))
 	{
-		minishell_error2(data->commands->name, "is a directory", "");
-		exit(126);
+		minishell_error2(data->curr_cmd->name, "is a directory", "");
+		clean_data(data);
+			// system("leaks minishell");
+
+		exit(126);	
 	}
-	if (access(data->commands->name, F_OK) == 0)
+	if (access(data->curr_cmd->name, F_OK) == 0)
 	{
-		if(access(data->commands->name, X_OK) == 0)
+		if(access(data->curr_cmd->name, X_OK) == 0)
 		{
-			execve(data->commands->name, data->commands->args, list_to_array(data->env));
-			minishell_error2(data->commands->name, strerror(errno), "");
-			exit(127);
+			execve(data->curr_cmd->name, data->curr_cmd->args, list_to_array(data->env));	
+			minishell_error2(data->curr_cmd->name, strerror(errno), "");
+			clean_data(data);
+			// system("leaks minishell");
+
+			exit(127);	
 		}
 		else
 		{
-			minishell_error2(data->commands->name, "", strerror(errno));
+			minishell_error2(data->curr_cmd->name, "", strerror(errno));
+			clean_data(data);
+			// system("leaks minishell");
+
 			exit (126);
 		}
 	}
 	else
 	{
-		minishell_error2(data->commands->name, "", strerror(errno));
+		minishell_error2(data->curr_cmd->name, "", strerror(errno));
+		clean_data(data);
+			// system("leaks minishell");
+
 		exit (127);
 	}
 }
@@ -156,17 +183,28 @@ void get_path_and_execute(t_data *data)
 
 	if(is_absolute_path(data))
 		check_and_exec(data);
+	if (!data->curr_cmd->args)
+	{
+
+		clean_data(data);
+		// system("leaks minishell");
+		exit(0);
+	}
 	path_args = ft_split(get_value_from_env(data->env, "PATH"), ':');
 	if (!path_args)
+	{
+		clean_data(data);
+		// system("leaks minishell");
 		exit(0);
-	if (!data->commands->args)
-		exit(0);
-	path = get_command_path(path_args, data->commands->name);
+	}
+	path = get_command_path(path_args, data->curr_cmd->name);
 	free_array(path_args);
 	if(path)
 	{
-		execve(path, data->commands->args, list_to_array(data->env));
-		minishell_error2(data->commands->name, "command not found", "");
+		execve(path, data->curr_cmd->args, list_to_array(data->env));
+		minishell_error2(data->curr_cmd->name, "command not found", "");
+		clean_data(data);
+		// system("leaks minishell");
 		exit(127);
 	}
 	check_and_exec2(data);
@@ -185,9 +223,14 @@ int	run_cmd(t_data *data)
 	{
 		dups(data);
 		redir_dups(data);
-		if (is_builtin(data->commands->name))
+		// if(is_absolute_path(data))
+		// 	check_and_exec(data);
+		if (data->curr_cmd->name && is_builtin(data->curr_cmd->name))
 		{
-			run_builtin(data, data->commands->args);
+			run_builtin(data, data->curr_cmd->args);
+			clean_data(data);
+			// system("leaks minishell");
+			
 			exit(get_g_exit_status());
 		}
 		get_path_and_execute(data);
@@ -240,46 +283,49 @@ int	run_commands(t_data *data)
 {
 	if (data->pipe_count == 0)
 	{
-		if (data->commands && data->commands->name
-			&& ft_strcmp(data->commands->name, "exit") == 0)
+		if (data->curr_cmd && data->curr_cmd->name
+			&& ft_strcmp(data->curr_cmd->name, "exit") == 0)
 		{
 			// builtin_exit(data);
 			return (builtin_exit(data)); // kmtacem der
 		}
-		if (data->commands && data->commands->name
-			&& ft_strcmp(data->commands->name, "cd") == 0)
-			return (cd(data, data->commands->args));
-		if (data->commands && data->commands->name
-			&& ft_strcmp(data->commands->name, "export") == 0)
-			return (export(data, data->commands->args));
-		if (data->commands && data->commands->name
-			&& ft_strcmp(data->commands->name, "unset") == 0)
-			return (unset(data, data->commands->args));
+		if (data->curr_cmd && data->curr_cmd->name
+			&& ft_strcmp(data->curr_cmd->name, "cd") == 0)
+			return (cd(data, data->curr_cmd->args));
+		if (data->curr_cmd && data->curr_cmd->name
+			&& ft_strcmp(data->curr_cmd->name, "export") == 0)
+			return (export(data, data->curr_cmd->args));
+		if (data->curr_cmd && data->curr_cmd->name
+			&& ft_strcmp(data->curr_cmd->name, "unset") == 0)
+			return (unset(data, data->curr_cmd->args));
 	}
 	// run_cmd(data);
 	return (run_cmd(data));
+	// return (0);
 }
 
 int	execute(t_data *data)
 {
-	if(!data->tokens)
-		return (set_g_exit_status(EXIT_SUCCESS), EXIT_SUCCESS);
 	int	k;
 
-	k = 0;
+	if(!data->tokens)
+		return (set_g_exit_status(EXIT_SUCCESS), EXIT_SUCCESS);
+	data->curr_cmd = data->commands;
 	while (data->pipe_index <= data->pipe_count)
 	{
 		set_g_exit_status(run_commands(data));
+		data->curr_cmd = data->curr_cmd->next;
+		// printf("execute \n");
 		// free_one_command(data);
 		data->pipe_index++;
 	}
 	close_pipes(data);
+	k = 0;
 	while (k < data->index)
 	{
 		wait_and_status(data->pid[k], &g_exit_status);
 		// waitpid(data->pid[k], NULL, 0);
 		k++;
 	}
-	// printf("alo2 -> %d\n", get_g_exit_status());
 	return (EXIT_SUCCESS);
 }

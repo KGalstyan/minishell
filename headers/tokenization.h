@@ -6,7 +6,7 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:29 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/19 21:52:05 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:31:33 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct s_token
     t_type type;
     t_quotes quotes;
     //int index;
-    char *content;
+    // char *content;
     char *original_content;
 };
 
@@ -103,6 +103,8 @@ int	heredoc_insertion(t_data *data);
 int	single_string_insertion(t_data *data);
 int	double_string_insertion(t_data *data);
 void	remove_brakets(t_data *data);
+void make_new_cont(t_data *data, t_div	*div, char	*new_cont);
+int	connect_tokens(t_data *data);
 // void ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *ft_lst_delone(t_token **lst, t_token *that_one);
 t_token *connect_lst_in_one(t_token **lst, t_token *first, t_token *last, int type);

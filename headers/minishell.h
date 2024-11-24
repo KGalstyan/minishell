@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/21 20:36:09 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:39:26 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "readline/history.h"
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <sys/wait.h>
 
 #include <termios.h>
 #include <errno.h>
@@ -52,7 +53,7 @@ struct s_data
     int     pipe_index;
     int *pid;
     int index;
-
+    
     // Karen
     int i;
     int j;
@@ -69,7 +70,7 @@ struct t_env_export
 {
     char *key;
     char *value;
-    struct t_env_export *next;
+    struct t_env_export *next;  
 };
 
 

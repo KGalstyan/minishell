@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 19:41:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/20 11:52:43 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:55:35 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int create_pipes(t_data *data)
     fd = malloc(sizeof(int [2]) * data->pipe_count);
     if(!fd)
         return(MALLOC_ERR);
-    // if(!) ...
     while(i < data->pipe_count)
     {
         if(pipe(fd[i]) == -1)
@@ -55,4 +54,9 @@ void	close_pipes(t_data *data)
 		close(data->fd[i][1]);
 		i++;
 	}
+    if(data->fd)
+    {
+        // free(data->fd);
+        // data->fd = NULL;
+    }
 }
