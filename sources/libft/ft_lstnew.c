@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:58:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 21:47:01 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:05:18 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_command	*ft_lstnew_cmd(void)
 	new = (t_command *)malloc(sizeof(t_command));
 	if (!new)
 		return (NULL);
+	new->stdin = -2;
+	new->stdout = -2;
 	new->name = NULL;
 	new->args = NULL;
 	new->next = NULL;

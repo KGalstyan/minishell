@@ -6,36 +6,36 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:03:31 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 14:14:56 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:58:41 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void clarify_shlvl(struct t_env_export *env_export)
+void	clarify_shlvl(struct t_env_export *env_export)
 {
-    int shlvl;
-    struct t_env_export *temp;
-    char *str;
-    // ete chka dnum es shlvln mek
-    temp = env_export;
-    while (temp && ft_strcmp("SHLVL", temp->key) != 0)
-    {
-        temp = temp->next;
-    }
-    if(temp)
-    {
-        shlvl = ft_atoi(temp->value);
-        shlvl++;
-        free(temp->value);
-        str = ft_itoa(shlvl);
-        temp->value = ft_strdup(str);
-        free(str);
-    }
+	int					shlvl;
+	struct t_env_export	*temp;
+	char				*str;
+
+	temp = env_export;
+	while (temp && ft_strcmp("SHLVL", temp->key) != 0)
+	{
+		temp = temp->next;
+	}
+	if (temp)
+	{
+		shlvl = ft_atoi(temp->value);
+		shlvl++;
+		free(temp->value);
+		str = ft_itoa(shlvl % 1000);
+		temp->value = ft_strdup(str);
+		free(str);
+	}
 }
 
 // int check_variable_name(char *str)
-// {   
+// {
 //     // if (!str)
 //     //     return (EXIT_FAILURE);
 //     if(*str != '_' && !ft_isalpha(*str))
@@ -53,18 +53,17 @@ void clarify_shlvl(struct t_env_export *env_export)
 //     exit(exit_signal);
 // }
 
-void parse_error(char *arg)
+void	parse_error(char *arg)
 {
-    ft_putstr_fd("minishell: ", STDERR_FILENO);
-    ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putendl_fd("'", STDERR_FILENO);
-    // ft_putstr_fd("'", STDERR_FILENO);
 }
 
-void minishell_error(char *command, char *arg, char *message)
+void	minishell_error(char *command, char *arg, char *message)
 {
-    ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (command != NULL)
 	{
 		ft_putstr_fd(command, STDERR_FILENO);
@@ -72,17 +71,17 @@ void minishell_error(char *command, char *arg, char *message)
 	}
 	if (arg != NULL && ft_strlen(arg) > 0)
 	{
-        ft_putstr_fd("`", STDERR_FILENO);
+		ft_putstr_fd("`", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
-        ft_putstr_fd("'", STDERR_FILENO);
+		ft_putstr_fd("'", STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	ft_putendl_fd(message, STDERR_FILENO);
 }
 
-void minishell_error2(char *command, char *arg, char *message)
+void	minishell_error2(char *command, char *arg, char *message)
 {
-    ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (command != NULL)
 	{
 		ft_putstr_fd(command, STDERR_FILENO);

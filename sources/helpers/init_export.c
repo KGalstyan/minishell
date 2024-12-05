@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:53:19 by vkostand          #+#    #+#             */
-/*   Updated: 2024/09/23 14:32:18 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:21:35 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@
 //         return (count_array_len(data->env));
 //     return (count_array_len(data->env) + 1);
 // }
-
 
 // int init_export(t_data *data)
 // {

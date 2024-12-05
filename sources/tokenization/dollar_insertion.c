@@ -3,42 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_insertion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:26:31 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/11/24 21:05:59 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:24:25 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_env(t_data *data, t_div	*div, char	*new_cont)
+int	check_env(t_data *data, t_div *div, char *new_cont)
 {
 	if (ft_isalpha(data->current->original_content[div->i])
 		|| ft_isdigit(data->current->original_content[div->i])
 		|| data->current->original_content[div->i] == '_')
 	{
-		if (ft_isdigit(data->current->original_content[div->i])
-			&& div->i == 0)
+		if (ft_isdigit(data->current->original_content[div->i]) && div->i == 0)
 		{
 			make_new_cont(data, div, new_cont);
-			return(1) ;
+			return (1);
 		}
 		while (ft_isalpha(data->current->original_content[div->i])
 			|| ft_isdigit(data->current->original_content[div->i])
 			|| data->current->original_content[div->i] == '_')
-				div->i++;
+			div->i++;
 	}
 	else
 	{
-		if(data->current->original_content[0] == '?' && div->i == 0)
+		if (data->current->original_content[0] == '?' && div->i == 0)
 			div->i++;
 		div->type1 = ENV;
 		div->type2 = WORD;
 		data->current = divide_lst(&data->tokens, data->current, div);
-		return(1) ;
+		return (1);
 	}
-	return(0);
+	return (0);
 }
 
 void	dollar_parsing(t_data *data)
@@ -55,7 +54,7 @@ void	dollar_parsing(t_data *data)
 		while (data->current->original_content[div.i]
 			&& data->current->type == ENV)
 		{
-			if(check_env(data, &div, new_cont))
+			if (check_env(data, &div, new_cont))
 				break ;
 		}
 		if (data->current)
@@ -63,17 +62,19 @@ void	dollar_parsing(t_data *data)
 	}
 }
 
-void change_env_to_word(t_data *data, char	*new_content)
+void	change_env_to_word(t_data *data, char *new_content)
 {
 	data->current = data->tokens;
 	while (data->current)
 	{
 		if (data->current->type == ENV)
 		{
-			if(!ft_strcmp(data->current->original_content, "?"))
-				new_content = get_value_from_env(data->env, data->current->original_content);
+			if (!ft_strcmp(data->current->original_content, "?"))
+				new_content = get_value_from_env(data->env,
+						data->current->original_content);
 			else
-				new_content = ft_strdup(get_value_from_env(data->env, data->current->original_content));
+				new_content = ft_strdup(get_value_from_env(data->env,
+							data->current->original_content));
 			free(data->current->original_content);
 			data->current->original_content = new_content;
 			if (!data->current->original_content)
@@ -87,9 +88,11 @@ void change_env_to_word(t_data *data, char	*new_content)
 			break ;
 	}
 }
-void check_and_sort_env_token(t_data *data, char *new_cont)
+
+void	check_and_sort_env_token(t_data *data, char *new_cont)
 {
-	if (!data->current->next || (data->current->next && data->current->next->type == SPACEO))
+	if (!data->current->next || (data->current->next
+			&& data->current->next->type == SPACEO))
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
 		new_cont = ft_strjoin("$", data->current->original_content);
@@ -110,7 +113,8 @@ void check_and_sort_env_token(t_data *data, char *new_cont)
 		free(data->current->original_content);
 		data->current->original_content = new_cont;
 	}
-	if (data->current && data->current->original_content[0] != '$' && data->current->type == WORD)
+	if (data->current && data->current->original_content[0] != '$'
+		&& data->current->type == WORD)
 		data->current->type = ENV;
 }
 

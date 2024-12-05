@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:25:48 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/22 16:39:26 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:22:30 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ struct s_data
     int     pipe_index;
     int *pid;
     int index;
-    
+
     // Karen
     int i;
     int j;
@@ -70,23 +70,18 @@ struct t_env_export
 {
     char *key;
     char *value;
-    struct t_env_export *next;  
+    struct t_env_export *next;
 };
 
+typedef struct 	s_heredoc
+{
+    char *cur;
+}				t_heredoc;
 
 #include "libft.h"
 #include "helpers.h"
 #include "builtin.h"
 #include "execution.h"
 #include "tokenization.h"
-
-// void tokenization(t_data *data);
-// void start_shell(t_data *data);
-// void	ft_lstadd_back(t_token **lst, t_token *new);
-// t_token	*ft_lstnew(void *content);
-
-void rl_replace_line (const char *, int);
-extern void rl_clear_history (void);
-
 
 #endif

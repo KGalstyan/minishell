@@ -6,14 +6,14 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:41:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/18 13:10:14 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:29:24 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 ////// khanes sa /////
 #define BLUE "\033[1;34m"
-# define RESET_COLOR "\033[0m"
+#define RESET_COLOR "\033[0m"
 
 char	*ft_join(char const *s1, char const *s2)
 {
@@ -59,66 +59,64 @@ char	*get_command_path(char **path_args, char *cmd)
 	return (NULL);
 }
 
-int count_list_len(t_data *data)
+int	count_list_len(t_data *data)
 {
-    int len;
+	int	len;
 
-    len = 0;
-    data->current = data->tokens;
-    while(data->current)
-    {
-        len++;
-        data->current = data->current->next;
-    }
-    return (len);
+	len = 0;
+	data->current = data->tokens;
+	while (data->current)
+	{
+		len++;
+		data->current = data->current->next;
+	}
+	return (len);
 }
 
-char **tokens_to_matrix(t_data *data)
+char	**tokens_to_matrix(t_data *data)
 {
-    char **matrix;
-    int i;
-    int len;
+	char	**matrix;
+	int		i;
+	int		len;
 
-    len = count_list_len(data);
-    data->current = data->tokens;
-    matrix = (char **)malloc(sizeof(char *) * (len + 1));
-    if(!matrix)
-        return (NULL);
-    i = 0;
-    while (data->current)
-    {
-        matrix[i] = ft_strdup(data->current->original_content);
-        if(!matrix[i])
-            return (free_array(matrix), NULL);
-        i++;
-        data->current = data->current->next;
-    }
-    matrix[i] = NULL;
-    return (matrix);
+	len = count_list_len(data);
+	data->current = data->tokens;
+	matrix = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!matrix)
+		return (NULL);
+	i = 0;
+	while (data->current)
+	{
+		matrix[i] = ft_strdup(data->current->original_content);
+		if (!matrix[i])
+			return (free_array(matrix), NULL);
+		i++;
+		data->current = data->current->next;
+	}
+	matrix[i] = NULL;
+	return (matrix);
 }
 
-
-void run_builtin(t_data *data, char **args) // (t_data *data)
+void	run_builtin(t_data *data, char **args) // (t_data *data)
 {
-    if(!args || !*args)
-        return ;
-    if(args[0] && ft_strcmp(args[0], "echo") == 0)
-        set_g_exit_status(echo(args));
-    if(args[0] && ft_strcmp(args[0], "env") == 0)
-        set_g_exit_status(env(data));
-    if(args[0] && ft_strcmp(args[0], "pwd") == 0)
-        set_g_exit_status(pwd(data));
-    if(args[0] && ft_strcmp(args[0], "unset") == 0)
-        set_g_exit_status(unset(data, args));
-    if(args[0] && ft_strcmp(args[0], "cd") == 0)
-        set_g_exit_status(cd(data, args));
-    if(args[0] && ft_strcmp(args[0], "export") == 0)
-    {
-        // data->export = export(data, args);
-        set_g_exit_status(export(data, args));
-    }
-    if(args[0] && ft_strcmp(args[0], "exit") == 0)
-        builtin_exit(data);
+	if (!args || !*args)
+		return ;
+	if (args[0] && ft_strcmp(args[0], "echo") == 0)
+		set_g_exit_status(echo(args));
+	if (args[0] && ft_strcmp(args[0], "env") == 0)
+		set_g_exit_status(env(data));
+	if (args[0] && ft_strcmp(args[0], "pwd") == 0)
+		set_g_exit_status(pwd(data));
+	if (args[0] && ft_strcmp(args[0], "unset") == 0)
+		set_g_exit_status(unset(data, args));
+	if (args[0] && ft_strcmp(args[0], "cd") == 0)
+		set_g_exit_status(cd(data, args));
+	if (args[0] && ft_strcmp(args[0], "export") == 0)
+	{
+		set_g_exit_status(export(data, args));
+	}
+	if (args[0] && ft_strcmp(args[0], "exit") == 0)
+		builtin_exit(data);
 }
 
 // t_cmd token_to_command(t_data *data)
@@ -128,7 +126,7 @@ void run_builtin(t_data *data, char **args) // (t_data *data)
 
 // int create_commands(t_data *data)
 // {
-    
+
 // }
 
 // int lexer(t_data *data)
@@ -139,7 +137,6 @@ void run_builtin(t_data *data, char **args) // (t_data *data)
 //         add_history(data->input);
 //     tokenization(data);
 
-    
 //     int status = 0;
 //     int pid;
 //     char **args;
@@ -147,11 +144,10 @@ void run_builtin(t_data *data, char **args) // (t_data *data)
 //     char **env;
 //     char *path;
 //     // int i = 0;
-    
 
 //     pid = fork();
 //     if(pid == -1)
-//         return (1);    
+//         return (1);
 //     if(pid == 0)
 //     {
 //         args = tokens_to_matrix(data);
@@ -169,7 +165,6 @@ void run_builtin(t_data *data, char **args) // (t_data *data)
 //     }
 //     waitpid(pid, NULL, 0);
 
-    
 //     free_tokens(data);
 //     return (status);
 //     // status = create_commands(data);
@@ -200,7 +195,7 @@ void run_builtin(t_data *data, char **args) // (t_data *data)
 // {
 //     (void)data;
 //     // print_a(data);
-    
+
 //     // char **args;
 
 //     // if (!data->commands)

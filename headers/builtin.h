@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:17:10 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 20:45:52 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:31:43 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ cannot access parent directories: No such file or directory"
 	cd functions
 */
 
-int	cd(t_data *data, char **args);
+int					cd(t_data *data, char **args);
 int					update_workdirs(t_data *data, char *new_path);
 
 /*
@@ -49,12 +49,12 @@ int					env(t_data *data);
 int					count_export_len(t_data *data);
 char				*create_export_value(char **env, int i);
 void				print_export(struct t_env_export *export);
-struct t_env_export *add_oldpwd(struct t_env_export *env);
-struct 	t_env_export	*mid_point(struct t_env_export *head);
-struct 	t_env_export	*merge(struct t_env_export *begin, int (*cmp)());
+struct t_env_export	*add_oldpwd(struct t_env_export *env);
+struct t_env_export	*mid_point(struct t_env_export *head);
+struct t_env_export	*merge(struct t_env_export *begin, int (*cmp)());
 // int 				export(struct t_env_export *export, char **args);
 // struct t_env_export	*export(struct t_env_export *export, char **args);
-int export(t_data *data, char **args);
+int					export(t_data *data, char **args);
 
 /*
 	pwd functions
@@ -64,12 +64,12 @@ int					pwd(t_data *data);
 /*
 	unset functions
 */
-int	unset(t_data *data, char **args); // int unset(t_data *data)
+int					unset(t_data *data, char **args); // int unset(t_data *data)
 
 /*
 	exit functions
 */
-int builtin_exit(t_data *data);
+int					builtin_exit(t_data *data);
 // void builtin_exit(t_data *data);
 
 /*
@@ -79,6 +79,11 @@ int					check_variable_name(char *name);
 char				*get_value(struct t_env_export *env, char *key);
 char				**list_to_array(struct t_env_export *env);
 int					is_builtin(char *cmd);
-int	ft_isspace(char c);
+int					ft_isspace(char c);
+
+void				set_clean_exit(t_data *data, int status);
+int					check_unset_name(char *name);
+void				ft_remove_var(struct t_env_export *prev,
+						struct t_env_export *ptr);
 
 #endif

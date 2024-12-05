@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 17:35:42 by vkostand          #+#    #+#             */
-/*   Updated: 2024/10/31 16:59:09 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:32:04 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(char *s1);
 
-char    *ft_strndup(const char *s1, int n, int m);
+char				*ft_strndup(const char *s1, int n, int m);
 
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 // char				*ft_strjoin(char const *s1, char const *s2);
@@ -60,7 +60,7 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char *ft_strncat(const char *str, int start, int end);
+char				*ft_strncat(const char *str, int start, int end);
 
 typedef struct s_list
 {

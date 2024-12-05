@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:29:41 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/11 22:17:00 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:25:20 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*ft_strdup(char *s1)
 	char	*str;
 	int		i;
 
-    if(!s1)
-        return (NULL);
+	if (!s1)
+		return (NULL);
 	str = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
 	if (str == NULL)
 		return (0);
@@ -29,29 +29,28 @@ char	*ft_strdup(char *s1)
 		i++;
 	}
 	str[i] = '\0';
-	// free(s1);
 	return (str);
 }
 
-char    *ft_strndup(const char *s1, int n, int m)
+char	*ft_strndup(const char *s1, int n, int m)
 {
-    char    *str;
-    int        i;
-    int        j;
+	char	*str;
+	int		i;
+	int		j;
 
-    if (m >= n)
-        return (0);
-    str = (char *)malloc((n - m + 1) * sizeof(char));
-    if (str == NULL)
-        return (0);
-    i = m;
-    j = 0;
-    while (n > i)
-    {
-        str[j] = s1[i];
-        i++;
-        j++;
-    }
-    str[j] = '\0';
-    return (str);
+	if (m >= n)
+		return (0);
+	str = (char *)malloc((n - m + 1) * sizeof(char));
+	if (str == NULL)
+		return (0);
+	i = m;
+	j = 0;
+	while (n > i)
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }

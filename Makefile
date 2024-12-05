@@ -15,7 +15,6 @@ VALIDATION =
 
 HELPERS = merge.c \
            helpers.c \
-           ft_arrdup.c \
            clean_data.c \
            array_utils.c \
            init_export.c \
@@ -29,6 +28,9 @@ EXECUTION = processes.c \
             signal.c \
             redirs.c \
             heredoc.c \
+            redir_helper.c \
+            execute_helper.c \
+            execute_helper_2.c \
             pipe.c
 
 TOKENIZATION = tokenization.c \
@@ -48,8 +50,9 @@ BUILTIN = cd.c \
          exit.c \
          unset.c \
          export.c \
-         cd_helpers.c \
-         builtin_helpers.c
+         builtin_helpers.c \
+         builtin_helpers_2.c
+
 
 LIBFT = ft_lstadd_back.c \
         ft_atoi.c \

@@ -6,20 +6,11 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 12:51:25 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:39:18 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	terminal_config(void)
-// {
-// 	struct termios	termios_p;
-
-// 	tcgetattr(0, &termios_p);
-// 	termios_p.c_lflag &= ~ECHOCTL;
-// 	tcsetattr(0, 0, &termios_p);
-// }
 
 void	handle_sigint(int sig)
 {
@@ -36,6 +27,7 @@ void	handle_sigquit(int sig)
 	(void)sig;
 	rl_redisplay();
 }
+
 void	handle_heredoc_sig(int sig)
 {
 	(void)sig;
@@ -46,17 +38,16 @@ void	handle_heredoc_sig(int sig)
 	set_g_exit_status(247);
 }
 
-void init_signals(int type)
+void	init_signals(int type)
 {
-	// terminal_config();
-	if(type == 1)
-	{
-    	signal(SIGQUIT, handle_sigquit);
-    	signal(SIGINT, handle_sigint);
-	}
-	else if(type == 2)
+	if (type == 1)
 	{
 		signal(SIGQUIT, handle_sigquit);
-    	signal(SIGINT, handle_heredoc_sig);
+		signal(SIGINT, handle_sigint);
+	}
+	else if (type == 2)
+	{
+		signal(SIGQUIT, handle_sigquit);
+		signal(SIGINT, handle_heredoc_sig);
 	}
 }
