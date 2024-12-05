@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_helpers_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:16:00 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:19:28 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:41:44 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_value_from_env(struct t_env_export *env, char *key)
 		return (ft_itoa(get_g_exit_status()));
 	while (temp)
 	{
-		if (ft_strcmp(temp->key, key) == 0)
+		if (temp->key && key && ft_strcmp(temp->key, key) == 0)
 			return (temp->value);
 		temp = temp->next;
 	}
