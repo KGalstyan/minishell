@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:57:57 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/03 20:16:44 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:45:57 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_and_exec2(t_data *data)
 		{
 			minishell_error2(data->curr_cmd->name, "", strerror(errno));
 			clean_data(data);
-			exit(127);
+			exit(126);
 		}
 	}
 	minishell_error2(data->curr_cmd->name, "", strerror(errno));
@@ -81,11 +81,15 @@ void	get_path_and_execute(t_data *data)
 	}
 	path = get_command_path(path_args, data->curr_cmd->name);
 	free_array(path_args);
-	if (path)
-	{
-		execve(path, data->curr_cmd->args, list_to_array(data->env));
-		minishell_error2(data->curr_cmd->name, "command not found", "");
-		clean_exit(data, 127);
-	}
-	check_and_exec2(data);
+	execve(path, data->curr_cmd->args, list_to_array(data->env));
+	minishell_error2(data->curr_cmd->name, "command not found", "");
+	clean_exit(data, 127);
+}
+
+void	handle_error(t_data *data)
+{
+	minishell_error2(NULL, "", data->curr_cmd->error);
+	clean_data(data);
+	set_g_exit_status(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }

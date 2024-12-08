@@ -6,15 +6,15 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:07:05 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:22:14 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_list(struct t_env_export *env)
+void	print_list(t_env_export *env)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = env;
 	if (!temp)

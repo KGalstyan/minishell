@@ -6,11 +6,56 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:31:25 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/02 16:24:08 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:56:14 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_connecting(t_data *data, t_ptr *ptr)
+{
+	if (ptr->last != ptr->first)
+	{
+		data->current = connect_lst_in_one(&data->tokens, ptr->first, ptr->last,
+				WORD);
+		if (!data->current)
+			return (set_g_exit_status(MALLOC_ERR), EXIT_FAILURE);
+	}
+	else if (data->current->next)
+	{
+		data->current = data->current->next;
+		return (3);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	connect_tokens(t_data *data)
+{
+	t_ptr	ptr;
+	int		status;
+
+	data->current = data->tokens;
+	ptr.first = data->current;
+	ptr.last = data->current;
+	while (data->current)
+	{
+		ptr.last = data->current;
+		ptr.first = data->current;
+		while (data->current && (data->current->type != SPACEO
+				&& data->current->type != PIPE && data->current->type != REDIR))
+		{
+			ptr.last = data->current;
+			if (data->current->next)
+				data->current = data->current->next;
+			else
+				break ;
+		}
+		status = check_connecting(data, &ptr);
+		if (status != 3)
+			return (status);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	check_special_tokens(t_data *data)
 {
@@ -50,21 +95,6 @@ int	create_tokens(t_data *data)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// void print_data(t_data *data)
-// {
-//     t_token *pr_token = data->tokens;
-//     while(pr_token != NULL)
-//     {
-
-//         printf(RED "token --> " RESET_COLOR);
-//         printf(GREEN "[%s]" RESET_COLOR, pr_token->original_content);
-//         printf("  (%d) -->", pr_token->quotes);
-//         printf(YELLOW " type(%d) --> \n" RESET_COLOR, pr_token->type);
-//         pr_token = pr_token->next;
-//     }
-//     printf("⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n");
-// }
 
 int	tokenization(t_data *data)
 {

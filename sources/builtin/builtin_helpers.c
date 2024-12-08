@@ -6,15 +6,15 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:20:11 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:19:33 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:03:05 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_value(struct t_env_export *env, char *key)
+char	*get_value(t_env_export *env, char *key)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = env;
 	while (temp)
@@ -26,10 +26,10 @@ char	*get_value(struct t_env_export *env, char *key)
 	return (NULL);
 }
 
-int	count_env_len(struct t_env_export *env)
+int	count_env_len(t_env_export *env)
 {
-	struct t_env_export	*temp;
-	int					len;
+	t_env_export	*temp;
+	int				len;
 
 	len = 0;
 	temp = env;
@@ -41,13 +41,13 @@ int	count_env_len(struct t_env_export *env)
 	return (len);
 }
 
-char	**list_to_array(struct t_env_export *env)
+char	**list_to_array(t_env_export *env)
 {
-	char				**matrix;
-	struct t_env_export	*temp;
-	int					i;
-	int					len;
-	char				*tmp;
+	char			**matrix;
+	t_env_export	*temp;
+	int				i;
+	int				len;
+	char			*tmp;
 
 	len = count_env_len(env);
 	matrix = (char **)malloc(sizeof(char *) * (len + 1));
@@ -93,11 +93,11 @@ int	ft_isspace(char c)
 		|| c == '\r');
 }
 
-// struct t_env_export *new_node(char *env)
+// t_env_export *new_node(char *env)
 // {
-//     struct t_env_export *new_node;
+//     t_env_export *new_node;
 
-//     new_node = (struct t_env_export *)malloc(sizeof(struct t_env_export));
+//     new_node = (t_env_export *)malloc(sizeof(t_env_export));
 //     if(!new_node)
 //         return (NULL);
 //     new_node->key = find_key(env);

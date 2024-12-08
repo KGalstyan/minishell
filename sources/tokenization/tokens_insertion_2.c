@@ -6,77 +6,48 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/12/03 18:44:39 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:12:19 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_connecting(t_data *data, t_ptr *ptr)
+int	pipe_insertion_2(t_data *data)
 {
-	if (ptr->last != ptr->first)
-	{
-		data->current = connect_lst_in_one(&data->tokens, ptr->first, ptr->last,
-				WORD);
-		if (!data->current)
-			return (set_g_exit_status(MALLOC_ERR), EXIT_FAILURE);
-	}
-	else if (data->current->next)
-	{
-		data->current = data->current->next;
-		return (3);
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	connect_tokens(t_data *data)
-{
-	t_ptr	ptr;
-	int		status;
-
 	data->current = data->tokens;
-	ptr.first = data->current;
-	ptr.last = data->current;
-	while (data->current)
+	if (data->current && data->current->type == PIPE)
 	{
-		ptr.last = data->current;
-		ptr.first = data->current;
-		while (data->current && (data->current->type != SPACEO
-				&& data->current->type != PIPE && data->current->type != REDIR))
-		{
-			ptr.last = data->current;
-			if (data->current->next)
-				data->current = data->current->next;
-			else
-				break ;
-		}
-		status = check_connecting(data, &ptr);
-		if (status != 3)
-			return (status);
+		data->error = parse_error("|");
+		if (!data->error)
+			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
+		return (set_g_exit_status(258), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
 int	pipe_insertion(t_data *data)
 {
-	data->current = data->tokens;
-	if (data->current && data->current->type == PIPE)
-	{
-		parse_error("|");// ||
-		return (set_g_exit_status(2), EXIT_FAILURE);// 258
-	}
+	int	tmp;
+
+	tmp = pipe_insertion_2(data);
+	if (tmp != EXIT_SUCCESS)
+		return (tmp);
 	while (data->current)
 	{
 		if (data->current->type == PIPE && (!data->current->next))
 		{
-			parse_error("|");
-			return (set_g_exit_status(2), EXIT_FAILURE);// 258
+			data->error = parse_error("|");
+			if (!data->error)
+				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
+			return (set_g_exit_status(258), EXIT_FAILURE);
 		}
 		if (data->current->type == PIPE && data->current->next
 			&& (data->current->next->type == HEREDOC))
 		{
-			parse_error("newline");
-			return (set_g_exit_status(2), EXIT_FAILURE);// 258
+			data->error = parse_error("newline");
+			if (!data->error)
+				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
+			return (set_g_exit_status(258), EXIT_FAILURE);
 		}
 		data->current = data->current->next;
 	}
@@ -89,13 +60,17 @@ int	check_heredoc(t_data *data)
 		return (set_g_exit_status(MALLOC_ERR), EXIT_FAILURE);
 	if (!data->current->next)
 	{
-		parse_error("newline");
-		return (set_g_exit_status(2), EXIT_FAILURE);// 258
+		data->error = parse_error("newline");
+		if (!data->error)
+			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
+		return (set_g_exit_status(258), EXIT_FAILURE);
 	}
 	else if (data->current->next->type == PIPE)
 	{
-		parse_error("|");
-		return (set_g_exit_status(2), EXIT_FAILURE);// 258
+		data->error = parse_error("|");
+		if (!data->error)
+			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
+		return (set_g_exit_status(258), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

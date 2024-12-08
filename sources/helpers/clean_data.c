@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:25:46 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:21:28 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 22:45:28 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
 //     free(data->input);
 // }
 
-void	free_env_export(struct t_env_export *env_export)
+void	free_env_export(t_env_export *env_export)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	while (env_export)
 	{
@@ -58,7 +58,7 @@ void	free_env_export(struct t_env_export *env_export)
 
 void	free_env(t_data *data)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	while (data->env)
 	{
@@ -87,9 +87,14 @@ void	clean_data(t_data *data)
 	data->env = NULL;
 	free_env_export(data->export);
 	data->export = NULL;
+	if (data->error)
+	{
+		free(data->error);
+		data->error = NULL;
+	}
 }
 
-void	free_env_node(struct t_env_export *node)
+void	free_env_node(t_env_export *node)
 {
 	if (node->key)
 	{

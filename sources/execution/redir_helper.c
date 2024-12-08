@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:37:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:38:01 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:17:29 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ int	open_infile(char *name)
 	int	fd;
 
 	fd = open(name, O_RDONLY);
-	if (fd < 0)
-	{
-		minishell_error2(name, "", strerror(errno));
-		set_g_exit_status(EXIT_FAILURE);
-		return (-1);
-	}
 	return (fd);
 }
 
@@ -31,15 +25,9 @@ int	open_outfile(char *name, int append)
 	int	fd;
 
 	if (append)
-		fd = open(name, O_WRONLY | O_APPEND, 0777);
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else
 		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		minishell_error2(name, "", strerror(errno));
-		set_g_exit_status(EXIT_FAILURE);
-		return (-1);
-	}
 	return (fd);
 }
 

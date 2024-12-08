@@ -6,17 +6,17 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:33:28 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:18:36 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct t_env_export	*ft_lst_delvar(struct t_env_export **lst,
-		struct t_env_export *that_one)
+t_env_export	*ft_lst_delvar(t_env_export **lst,
+		t_env_export *that_one)
 {
-	struct t_env_export	*ptr;
-	struct t_env_export	*prev;
+	t_env_export	*ptr;
+	t_env_export	*prev;
 
 	if (!lst || !*lst || !that_one)
 		return (NULL);
@@ -43,7 +43,7 @@ struct t_env_export	*ft_lst_delvar(struct t_env_export **lst,
 
 static int	delete_from_env(t_data *data, char *var)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = data->env;
 	while (temp)
@@ -60,7 +60,7 @@ static int	delete_from_env(t_data *data, char *var)
 
 static int	delete_from_export(t_data *data, char *var)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = data->export;
 	while (temp->next)
@@ -77,8 +77,8 @@ static int	delete_from_export(t_data *data, char *var)
 
 // static int delete_from_env(t_data *data, char *var)
 // {
-//     struct t_env_export *temp;
-//     struct t_env_export *temp1;
+//     t_env_export *temp;
+//     t_env_export *temp1;
 
 //     temp = data->env;
 //     while (temp->next)
@@ -96,8 +96,8 @@ static int	delete_from_export(t_data *data, char *var)
 
 // static int delete_from_export(t_data *data, char *var)
 // {
-//     struct t_env_export *temp;
-//     struct t_env_export *temp1;
+//     t_env_export *temp;
+//     t_env_export *temp1;
 
 //     temp = data->export;
 //     while (temp->next)

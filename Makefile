@@ -1,7 +1,7 @@
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3 #-lreadline
-CC = cc
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3 #-lreadline
+CC = cc 
 
 SRCS = main.c
 
@@ -11,14 +11,12 @@ HEADER =  libft.h \
           minishell.h \
           tokenization.h
 
-VALIDATION =
-
 HELPERS = merge.c \
            helpers.c \
            clean_data.c \
            array_utils.c \
            init_export.c \
-           initialization.c
+           initialization.c 
 
 EXECUTION = processes.c \
             lexer.c \
@@ -29,6 +27,7 @@ EXECUTION = processes.c \
             redirs.c \
             heredoc.c \
             redir_helper.c \
+            heredoc_helper.c \
             execute_helper.c \
             execute_helper_2.c \
             pipe.c
@@ -41,7 +40,7 @@ TOKENIZATION = tokenization.c \
                  brakets_insertion.c \
                tokens_insertion_2.c \
                 dollar_insertion.c \
-                connect_lists.c
+                connect_lists.c 
 
 BUILTIN = cd.c \
          env.c \
@@ -75,7 +74,7 @@ LIBFT = ft_lstadd_back.c \
 		    ft_split.c \
 		    ft_strlcpy.c \
         ft_strncat.c \
-        ft_bzero.c
+        ft_bzero.c 
 
 OBJ_DIR = ./objects/
 SRCS_DIR = ./sources/
@@ -91,7 +90,7 @@ $(shell mkdir -p $(OBJ_DIR))
 
 SRCS := $(addprefix $(SRCS_DIR), $(SRCS))
 LIBFT := $(addprefix $(LIBFT_DIR), $(LIBFT))
-HEADER := $(addprefix $(HEADER_DIR), $(HEADER))
+HEADER := $(addprefix $(HEADER_DIR), $(HEADER)) 
 BUILTIN := $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 HELPERS := $(addprefix $(HELPERS_DIR), $(HELPERS))
 EXECUTION := $(addprefix $(EXECUTION_DIR), $(EXECUTION))
@@ -106,18 +105,29 @@ SRCS += $(VALIDATION)
 SRCS += $(TOKENIZATION)
 
 OBJS = $(patsubst $(SRCS_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
+READLINE_DIR = /readline_local
+READLINE_PATH := $(addprefix $(shell pwd), $(READLINE_DIR))
 
-all: config ${NAME}
+all: ${NAME} 
 
 config:
-	mkdir -p readline_local
-	./readline_config.sh readline_local
 
-${NAME}: ${OBJS} Makefile
+	@if [ ! -d "readline_local" ]; then \
+		curl -O https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz; \
+		tar -xpf readline-8.2.tar.gz; \
+		rm -rf readline-8.2.tar.gz; \
+		mkdir -p ./readline_local; \
+		cd readline-8.2; \
+    ./configure --prefix="${READLINE_PATH}"; \
+    make; \
+    make install; \
+	fi		
+
+${NAME}: Makefile ${OBJS}
 	@${CC} ${CFLAGS}  -I$(HEADER_DIR) -I./readline_local/include ${OBJS} -Lreadline_local/lib -lreadline -o ${NAME}
 
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.c
-	@mkdir -p $(dir $@)
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS)  -I$(HEADER_DIR) -I./readline_local/include -c $< -o $@
 
 clean:
@@ -126,6 +136,7 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 
+
 re: fclean ${NAME}
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re config

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_helpers_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:16:00 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/05 20:41:44 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int	check_unset_name(char *name)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_remove_var(struct t_env_export *prev, struct t_env_export *ptr)
+void	ft_remove_var(t_env_export *prev, t_env_export *ptr)
 {
 	if (prev)
 		prev->next = ptr->next;
 	free_env_node(ptr);
 }
 
-char	*get_value_from_env(struct t_env_export *env, char *key)
+char	*get_value_from_env(t_env_export *env, char *key)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = env;
 	if (!ft_strcmp(key, "?"))

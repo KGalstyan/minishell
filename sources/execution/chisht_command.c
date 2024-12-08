@@ -6,11 +6,39 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:10:00 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/02 16:51:24 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:16:41 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_commands(t_data *data)
+{
+	data->curr_cmd = data->commands;
+	while (data->curr_cmd)
+	{
+		data->commands = data->commands->next;
+		free(data->curr_cmd->name);
+		data->curr_cmd->name = NULL;
+		free(data->curr_cmd->error);
+		data->curr_cmd->error = NULL;
+		free_array(data->curr_cmd->args);
+		free(data->curr_cmd);
+		data->curr_cmd = NULL;
+		data->curr_cmd = data->commands;
+	}
+}
+
+void	free_one_command(t_data *data)
+{
+	data->curr_cmd = data->commands->next;
+	free(data->commands->name);
+	data->commands->name = NULL;
+	free_array(data->commands->args);
+	free(data->commands);
+	data->commands = NULL;
+	data->commands = data->curr_cmd;
+}
 
 // int count_commands(t_data *data)
 // {
@@ -21,7 +49,7 @@
 // 	while(data->current)
 // 	{
 // 		if(data->current->type == PIPE && (data->current->next
-				// && data->current->next->type == WORD))
+// && data->current->next->type == WORD))
 // 			num++;
 // 		data->current = data->current->next;
 // 	}
@@ -126,17 +154,6 @@
 // 	return (args);
 // }
 
-void	free_one_command(t_data *data)
-{
-	data->curr_cmd = data->commands->next;
-	free(data->commands->name);
-	data->commands->name = NULL;
-	free_array(data->commands->args);
-	free(data->commands);
-	data->commands = NULL;
-	data->commands = data->curr_cmd;
-}
-
 // void free_commands(t_data *data)
 // {
 // 	t_command *tmp;
@@ -154,21 +171,6 @@ void	free_one_command(t_data *data)
 // 		data->commands = tmp;
 // 	}
 // }
-
-void	free_commands(t_data *data)
-{
-	data->curr_cmd = data->commands;
-	while (data->curr_cmd)
-	{
-		data->commands = data->commands->next;
-		free(data->curr_cmd->name);
-		data->curr_cmd->name = NULL;
-		free_array(data->curr_cmd->args);
-		free(data->curr_cmd);
-		data->curr_cmd = NULL;
-		data->curr_cmd = data->commands;
-	}
-}
 
 // int fill_commands(t_data *data, int cmd_count)
 // {

@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:58:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 22:05:18 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:28:40 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_command	*ft_lstnew_cmd(void)
 	new->name = NULL;
 	new->args = NULL;
 	new->next = NULL;
+	new->error = NULL;
 	return (new);
 }
 

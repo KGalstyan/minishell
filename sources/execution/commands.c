@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:08:28 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/12/03 20:18:12 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:34:07 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ int	create_commands(t_data *data)
 			return (MALLOC_ERR);
 		ft_lstadd_back_cmd(&data->commands, tmp);
 	}
-	if (handle_redir(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	handle_redir(data);
 	data->curr_cmd = data->commands;
 	data->current = data->tokens;
 	if (!data->current)

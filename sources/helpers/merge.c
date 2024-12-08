@@ -6,16 +6,16 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:35:30 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:21:39 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct t_env_export	*mid_point(struct t_env_export *head)
+t_env_export	*mid_point(t_env_export *head)
 {
-	struct t_env_export	*mid;
-	struct t_env_export	*end;
+	t_env_export	*mid;
+	t_env_export	*end;
 
 	mid = head;
 	end = head->next;
@@ -27,11 +27,11 @@ struct t_env_export	*mid_point(struct t_env_export *head)
 	return (mid);
 }
 
-struct t_env_export	*merge_sorted_list(struct t_env_export *left,
-		struct t_env_export *right, int (*cmp)())
+t_env_export	*merge_sorted_list(t_env_export *left,
+		t_env_export *right, int (*cmp)())
 {
-	struct t_env_export	*sorted_list;
-	struct t_env_export	temp;
+	t_env_export	*sorted_list;
+	t_env_export	temp;
 
 	sorted_list = &temp;
 	while (left && right)
@@ -55,11 +55,11 @@ struct t_env_export	*merge_sorted_list(struct t_env_export *left,
 	return (temp.next);
 }
 
-struct t_env_export	*merge(struct t_env_export *begin, int (*cmp)())
+t_env_export	*merge(t_env_export *begin, int (*cmp)())
 {
-	struct t_env_export	*left;
-	struct t_env_export	*right;
-	struct t_env_export	*mid;
+	t_env_export	*left;
+	t_env_export	*right;
+	t_env_export	*mid;
 
 	if (!begin || !begin->next)
 		return (begin);

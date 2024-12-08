@@ -6,15 +6,15 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:30:53 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/02 15:30:35 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:02:05 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	update_env(struct t_env_export *env, char *key, char *value)
+int	update_env(t_env_export *env, char *key, char *value)
 {
-	struct t_env_export	*temp;
+	t_env_export	*temp;
 
 	temp = env;
 	while (temp)
@@ -80,19 +80,19 @@ char	*find_value(char *key_value)
 	return (value);
 }
 
-struct t_env_export	*init_env(char **env)
+t_env_export	*init_env(char **env)
 {
-	int					i;
-	struct t_env_export	*head;
-	struct t_env_export	*current;
-	struct t_env_export	*new_node;
+	int				i;
+	t_env_export	*head;
+	t_env_export	*current;
+	t_env_export	*new_node;
 
 	i = 0;
 	head = NULL;
 	current = NULL;
 	while (env[i])
 	{
-		new_node = malloc(sizeof(struct t_env_export));
+		new_node = malloc(sizeof(t_env_export));
 		if (!new_node)
 			return (NULL);
 		new_node->key = find_key(env[i]);
@@ -108,17 +108,17 @@ struct t_env_export	*init_env(char **env)
 	return (head);
 }
 
-// struct t_env_export *init_env(char **env)
+// t_env_export *init_env(char **env)
 // {
 //     int i;
-//     struct t_env_export *new_env;
-//     struct t_env_export temp;
+//     t_env_export *new_env;
+//     t_env_export temp;
 
 //     new_env = &temp;
 //     i = 0;
 //     while(env[i])
 //     {
-//         new_env->next = malloc(sizeof(struct t_env_export));
+//         new_env->next = malloc(sizeof(t_env_export));
 //         if(!new_env)
 //             exit(MALLOC_ERR);
 //         new_env->next->key = find_key(env[i]);
