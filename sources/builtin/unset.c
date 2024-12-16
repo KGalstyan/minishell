@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:33:28 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:04:32 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	delete_from_export(t_data *data, char *var)
 	t_env_export	*temp;
 
 	temp = data->export;
-	while (temp->next)
+	while (temp)
 	{
 		if (ft_strcmp(temp->key, var) == 0)
 		{

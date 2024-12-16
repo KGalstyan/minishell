@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:03:31 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 16:03:42 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:57:37 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ void	clarify_shlvl(t_env_export *env_export)
 //     clean_data(data);
 //     exit(exit_signal);
 // }
+
+void	set_parse_error(t_data *data, char *arg)
+{
+	if (data->error)
+	{
+		free(data->error);
+		data->error = NULL;
+	}
+	data->error = parse_error(arg);
+}
 
 char	*parse_error(char *arg)
 {

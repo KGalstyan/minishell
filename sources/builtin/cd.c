@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:23:21 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:03:27 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:20:23 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,24 @@ int	cd_oldpwd(t_data *data)
 	char	*pwd;
 	char	*oldpwd;
 
-	pwd = get_value_from_env(data->env, "PWD");
-	oldpwd = get_value_from_env(data->env, "OLDPWD");
+	oldpwd = ft_strdup(get_value_from_env(data->env, "OLDPWD"));
+	pwd = ft_strdup(get_value_from_env(data->env, "PWD"));
 	if (!oldpwd)
-		return (minishell_error2("cd", "", "OLDPWD not set"), EXIT_FAILURE);
+		return (free(pwd), free(oldpwd), minishell_error2("cd", "",
+				"OLDPWD not set"), EXIT_FAILURE);
 	if (chdir(oldpwd) != 0)
-		return (minishell_error2("cd", oldpwd, "No such file or directory"),
-			EXIT_FAILURE);
+		return (free(pwd), free(oldpwd), minishell_error2("cd", oldpwd,
+				"No such file or directory"), EXIT_FAILURE);
 	if (update_env(data->env, "PWD", oldpwd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
-	if (update_env(data->env, "OLDPWD", pwd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
+		return (free(pwd), free(oldpwd), EXIT_FAILURE);
 	if (update_env(data->export, "PWD", oldpwd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
+		return (free(pwd), free(oldpwd), EXIT_FAILURE);
+	if (update_env(data->env, "OLDPWD", pwd) != EXIT_SUCCESS)
+		return (free(pwd), free(oldpwd), EXIT_FAILURE);
 	if (update_env(data->export, "OLDPWD", pwd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
+		return (free(pwd), free(oldpwd), EXIT_FAILURE);
 	ft_putendl_fd(oldpwd, 1);
-	return (EXIT_SUCCESS);
+	return (free(pwd), free(oldpwd), EXIT_SUCCESS);
 }
 
 int	cd(t_data *data, char **args)

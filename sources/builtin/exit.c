@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:36:18 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:14:53 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:17:02 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,24 @@ int	builtin_exit(t_data *data)
 	int	flag;
 
 	flag = 0;
-	write(STDOUT_FILENO, "exit\n", 5);
-	if (data->commands->args && data->commands->args[1])
+	if (data->pipe_count == 0)
+		write(STDOUT_FILENO, "exit\n", 5);
+	if (data->curr_cmd->args && data->curr_cmd->args[1])
 	{
-		if (!is_number(data->commands->args[1])
-			|| (is_number(data->commands->args[1])
-				&& ft_strlen(data->commands->args[1]) > 19))
+		if (!is_number(data->curr_cmd->args[1])
+			|| (is_number(data->curr_cmd->args[1])
+				&& ft_strlen(data->curr_cmd->args[1]) > 19))
 		{
-			minishell_error2("exit", data->commands->args[1],
+			minishell_error2("exit", data->curr_cmd->args[1],
 				"numeric argument required");
-			set_g_exit_status(255);
-			clean_data(data);
-			exit(get_g_exit_status());
+			set_clean_exit(data, 255);
 		}
-		if (data->commands->args[2])
+		if (data->curr_cmd->args[2])
 		{
 			minishell_error2("exit", "", "too many arguments");
 			return (flag = 1, EXIT_FAILURE);
 		}
-		set_g_exit_status(ft_atol(data->commands->args[1], data) % 256);
+		set_g_exit_status(ft_atol(data->curr_cmd->args[1], data) % 256);
 	}
 	exit_check(flag, data);
 	return (EXIT_SUCCESS);

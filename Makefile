@@ -50,7 +50,8 @@ BUILTIN = cd.c \
          unset.c \
          export.c \
          builtin_helpers.c \
-         builtin_helpers_2.c
+         builtin_helpers_2.c \
+         builtin_helpers_3.c
 
 
 LIBFT = ft_lstadd_back.c \
@@ -127,7 +128,7 @@ ${NAME}: Makefile ${OBJS}
 	@${CC} ${CFLAGS}  -I$(HEADER_DIR) -I./readline_local/include ${OBJS} -Lreadline_local/lib -lreadline -o ${NAME}
 
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS)  -I$(HEADER_DIR) -I./readline_local/include -c $< -o $@
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:20:11 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 16:03:05 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:39:50 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,42 @@ int	count_env_len(t_env_export *env)
 	return (len);
 }
 
+int	list_to_array_2(t_env_export *temp, char **matrix, int i)
+{
+	char	*tmp;
+
+	if (!temp->value)
+	{
+		matrix[i] = ft_strdup(temp->key);
+		if (!matrix[i])
+			return (free_array(matrix), EXIT_FAILURE);
+	}
+	else
+	{
+		tmp = ft_strjoin(temp->key, "=");
+		matrix[i] = ft_strjoin2(tmp, temp->value);
+		free(tmp);
+		if (!matrix[i])
+			return (free_array(matrix), EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 char	**list_to_array(t_env_export *env)
 {
 	char			**matrix;
 	t_env_export	*temp;
 	int				i;
-	int				len;
-	char			*tmp;
 
-	len = count_env_len(env);
-	matrix = (char **)malloc(sizeof(char *) * (len + 1));
+	matrix = (char **)malloc(sizeof(char *) * (count_env_len(env) + 1));
 	if (!matrix)
 		return (NULL);
 	i = 0;
 	temp = env;
 	while (temp)
 	{
-		tmp = ft_strjoin(temp->key, "=");
-		matrix[i] = ft_strjoin(tmp, temp->value);
-		free(tmp);
-		if (!matrix[i])
-			return (free_array(matrix), NULL);
+		if (list_to_array_2(temp, matrix, i) == EXIT_FAILURE)
+			return (NULL);
 		i++;
 		temp = temp->next;
 	}
@@ -85,12 +100,6 @@ int	check_variable_name(char *name)
 		i++;
 	}
 	return (EXIT_SUCCESS);
-}
-
-int	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
 }
 
 // t_env_export *new_node(char *env)

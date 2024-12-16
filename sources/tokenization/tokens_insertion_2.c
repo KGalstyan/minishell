@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/12/06 18:12:19 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:58:24 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	pipe_insertion_2(t_data *data)
 	data->current = data->tokens;
 	if (data->current && data->current->type == PIPE)
 	{
-		data->error = parse_error("|");
+		set_parse_error(data, "|");
 		if (!data->error)
 			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 		return (set_g_exit_status(258), EXIT_FAILURE);
@@ -36,7 +36,7 @@ int	pipe_insertion(t_data *data)
 	{
 		if (data->current->type == PIPE && (!data->current->next))
 		{
-			data->error = parse_error("|");
+			set_parse_error(data, "|");
 			if (!data->error)
 				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 			return (set_g_exit_status(258), EXIT_FAILURE);
@@ -44,7 +44,7 @@ int	pipe_insertion(t_data *data)
 		if (data->current->type == PIPE && data->current->next
 			&& (data->current->next->type == HEREDOC))
 		{
-			data->error = parse_error("newline");
+			set_parse_error(data, "|");
 			if (!data->error)
 				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 			return (set_g_exit_status(258), EXIT_FAILURE);
@@ -60,14 +60,14 @@ int	check_heredoc(t_data *data)
 		return (set_g_exit_status(MALLOC_ERR), EXIT_FAILURE);
 	if (!data->current->next)
 	{
-		data->error = parse_error("newline");
+		set_parse_error(data, "newline");
 		if (!data->error)
 			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 		return (set_g_exit_status(258), EXIT_FAILURE);
 	}
 	else if (data->current->next->type == PIPE)
 	{
-		data->error = parse_error("|");
+		set_parse_error(data, "|");
 		if (!data->error)
 			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 		return (set_g_exit_status(258), EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:18:20 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 20:26:12 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:57:48 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	open_file_and_remove_token_2(t_data *data)
 	else
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
-		data->curr_cmd->stdin = open_infile(data->current->original_content);
+		data->curr_cmd->stdin = open_infile(data,
+				data->current->original_content);
 		if (data->curr_cmd->stdin == -1)
 		{
 			data->curr_cmd->error = get_error_message(data);
@@ -63,8 +64,8 @@ int	open_file_and_remove_token(t_data *data)
 	if (ft_strcmp(data->current->original_content, ">>") == 0)
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
-		data->curr_cmd->stdout = open_outfile(data->current->original_content,
-				1);
+		data->curr_cmd->stdout = open_outfile(data,
+				data->current->original_content, 1);
 		if (data->curr_cmd->stdout == -1)
 			return (data->curr_cmd->error = get_error_message(data),
 				EXIT_FAILURE);
@@ -72,8 +73,8 @@ int	open_file_and_remove_token(t_data *data)
 	else if (data->current->original_content[0] == '>')
 	{
 		data->current = ft_lst_delone(&data->tokens, data->current);
-		data->curr_cmd->stdout = open_outfile(data->current->original_content,
-				0);
+		data->curr_cmd->stdout = open_outfile(data,
+				data->current->original_content, 0);
 		if (data->curr_cmd->stdout == -1)
 			return (data->curr_cmd->error = get_error_message(data),
 				EXIT_FAILURE);
@@ -121,7 +122,7 @@ int	handle_redir_2(t_data *data)
 		&& (data->current->next->type == REDIR
 			|| data->current->next->type == HEREDOC))
 	{
-		data->error = parse_error(data->current->next->original_content);
+		set_parse_error(data, data->current->next->original_content);
 		if (!data->error)
 			return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 		return (set_g_exit_status(258), EXIT_FAILURE);
@@ -139,13 +140,14 @@ int	handle_redir(t_data *data)
 			return (EXIT_FAILURE);
 		if (data->current && data->current->type == REDIR
 			&& ((!data->current->next) || data->current->next->type == PIPE))
-			return (data->error = parse_error("newline"),
+			return (set_parse_error(data, "newline"),
 				set_g_exit_status(258), EXIT_FAILURE);
 		else if (data->curr_cmd && data->current
 			&& (data->current->type == REDIR || data->current->type == HEREDOC)
 			&& (data->current->next && data->current->next->type == WORD))
 		{
-			if (open_file_and_remove_token(data) && data->pipe_count < 1)
+			if (open_file_and_remove_token(data) == EXIT_FAILURE
+				&& data->pipe_count < 1)
 				return (EXIT_FAILURE);
 		}
 		else if (data->current)

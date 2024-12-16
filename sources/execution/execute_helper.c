@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:56:26 by vkostand          #+#    #+#             */
-/*   Updated: 2024/11/24 21:58:49 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:17:33 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ bool	is_directory(const char *path)
 
 int	is_absolute_path(t_data *data)
 {
-	if (data->commands && data->commands->name
-		&& (data->commands->name[0] == '.' || data->commands->name[0] == '/'))
+	if (data->curr_cmd && data->curr_cmd->name
+		&& (data->curr_cmd->name[0] == '.' || data->curr_cmd->name[0] == '/'))
 		return (1);
 	return (0);
 }

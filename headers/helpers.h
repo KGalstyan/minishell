@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:51:02 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 15:59:18 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:04:27 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void						minishell_error2(char *command, char *arg,
 								char *message);
 int							check_variable_name(char *name);
 char						*parse_error(char *arg);
+void						set_parse_error(t_data *data, char *arg);
 
 //---- Global exit status
 void						set_g_exit_status(int new_status);

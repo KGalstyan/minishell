@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:02 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/12/06 18:12:25 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:58:03 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	redir_insertion(t_data *data)
 		data->current->type = REDIR;
 		if (!data->current->next)
 		{
-			data->error = parse_error("newline");
+			set_parse_error(data, "newline");
 			if (!data->error)
 				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 			return (set_g_exit_status(258), EXIT_FAILURE);
@@ -87,7 +87,7 @@ int	space_insertion(t_data *data)
 			&& data->current->next->type == SPACEO && data->current->next->next
 			&& data->current->next->next->type == REDIR)
 		{
-			data->error = parse_error(data->current->original_content);
+			set_parse_error(data, data->current->original_content);
 			if (!data->error)
 				return (set_g_exit_status(MALLOC_ERR), MALLOC_ERR);
 			return (set_g_exit_status(258), EXIT_FAILURE);

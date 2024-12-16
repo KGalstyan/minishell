@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:16:00 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 15:56:30 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:54:55 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,21 @@ int	is_builtin(char *cmd)
 			|| ft_strcmp(cmd, "exit") == 0))
 		return (1);
 	return (0);
+}
+
+void	print_export(t_env_export *export)
+{
+	t_env_export	*temp;
+
+	temp = export;
+	while (temp)
+	{
+		if (temp->key)
+			printf("declare -x %s", temp->key);
+		if (temp->value)
+			printf("=\"%s\"\n", temp->value);
+		else
+			printf("\n");
+		temp = temp->next;
+	}
 }

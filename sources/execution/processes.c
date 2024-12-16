@@ -6,7 +6,7 @@
 /*   By: vkostand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 19:45:22 by vkostand          #+#    #+#             */
-/*   Updated: 2024/12/07 22:56:17 by vkostand         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:25:03 by vkostand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	free_in_loop(t_data *data)
 
 void	shell_helper2(t_data *data)
 {
-	if (data->input)
+	if (data->input && data->input[0])
 		add_history(data->input);
 	tokenization(data);
 	check_heredoc_limit(data);
